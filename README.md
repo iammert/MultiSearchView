@@ -1,7 +1,7 @@
 # MultiSearchView
 Yet another built-in animated search view for Android. 
 
-All design credits goes to [Cuberto](https://dribbble.com/cuberto)
+All design credits goes to [Cuberto](https://dribbble.com/cuberto) And inspired from [this design](https://dribbble.com/shots/5922034-Multi-search-by-categories)
 
 <img src="https://raw.githubusercontent.com/iammert/MultiSearchView/master/art/multisearch.gif"/>
 
