@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="msv_size_remove_icon">18dp</dimen>
+    <dimen name="padding_16dp">16dp</dimen>
+</resources>
