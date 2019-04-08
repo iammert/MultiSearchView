@@ -1,24 +1,25 @@
 package com.iammert.library.ui.multisearchviewlib
 
+import android.animation.LayoutTransition
+import android.animation.ValueAnimator
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import android.widget.FrameLayout
+import android.widget.LinearLayout
+import androidx.databinding.DataBindingUtil
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import com.iammert.library.ui.multisearchviewlib.databinding.ViewItemBinding
-import android.animation.LayoutTransition
-import android.animation.ValueAnimator
-import android.widget.*
-import kotlinx.android.synthetic.main.view_item.view.*
-import androidx.databinding.DataBindingUtil
 import com.iammert.library.ui.multisearchviewlib.databinding.ViewMultiSearchContainerBinding
-import com.iammert.library.ui.multisearchviewlib.helper.KeyboardHelper.hideKeyboard
 import com.iammert.library.ui.multisearchviewlib.extensions.afterMeasured
 import com.iammert.library.ui.multisearchviewlib.extensions.endListener
 import com.iammert.library.ui.multisearchviewlib.extensions.inflate
 import com.iammert.library.ui.multisearchviewlib.extensions.onSearchAction
 import com.iammert.library.ui.multisearchviewlib.helper.KeyboardHelper
+import com.iammert.library.ui.multisearchviewlib.helper.KeyboardHelper.hideKeyboard
 import com.iammert.library.ui.multisearchviewlib.helper.SimpleTextWatcher
+import kotlinx.android.synthetic.main.view_item.view.*
 
 
 class MultiSearchContainerView @JvmOverloads constructor(
@@ -43,8 +44,6 @@ class MultiSearchContainerView @JvmOverloads constructor(
     private var selectedTab: ViewItemBinding? = null
 
     private var multiSearchViewListener: MultiSearchView.MultiSearchViewListener? = null
-
-    private var searchTextStyle: Int = 0
 
     private val searchEnterScrollAnimation = ValueAnimator.ofInt()
         .apply {
@@ -114,7 +113,7 @@ class MultiSearchContainerView @JvmOverloads constructor(
         this.multiSearchViewListener = multiSearchViewListener
     }
 
-    fun search() {
+    fun search(searchTextStyle: Int) {
         if (isInSearchMode) {
             return
         }
@@ -122,7 +121,7 @@ class MultiSearchContainerView @JvmOverloads constructor(
         selectedTab?.let { deselectTab(it) }
 
         isInSearchMode = true
-        selectedTab = createNewSearchView()
+        selectedTab = createNewSearchView(searchTextStyle)
         binding.layoutItemContainer.addView(selectedTab?.root)
 
         selectedTab?.root?.afterMeasured {
@@ -186,7 +185,7 @@ class MultiSearchContainerView @JvmOverloads constructor(
 
     fun isInSearchMode() = isInSearchMode
 
-    private fun createNewSearchView(): ViewItemBinding {
+    private fun createNewSearchView(searchTextStyle: Int): ViewItemBinding {
         val viewItem: ViewItemBinding = context.inflate(R.layout.view_item)
         viewItem.editTextSearch.setTextAppearance(viewItem.root.context, searchTextStyle)
 
