@@ -12,10 +12,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import com.iammert.library.ui.multisearchviewlib.databinding.ViewItemBinding
 import com.iammert.library.ui.multisearchviewlib.databinding.ViewMultiSearchContainerBinding
-import com.iammert.library.ui.multisearchviewlib.extensions.afterMeasured
-import com.iammert.library.ui.multisearchviewlib.extensions.endListener
-import com.iammert.library.ui.multisearchviewlib.extensions.inflate
-import com.iammert.library.ui.multisearchviewlib.extensions.onSearchAction
+import com.iammert.library.ui.multisearchviewlib.extensions.*
 import com.iammert.library.ui.multisearchviewlib.helper.KeyboardHelper
 import com.iammert.library.ui.multisearchviewlib.helper.KeyboardHelper.hideKeyboard
 import com.iammert.library.ui.multisearchviewlib.helper.SimpleTextWatcher
@@ -187,7 +184,8 @@ class MultiSearchContainerView @JvmOverloads constructor(
 
     private fun createNewSearchView(searchTextStyle: Int): ViewItemBinding {
         val viewItem: ViewItemBinding = context.inflate(R.layout.view_item)
-        viewItem.editTextSearch.setTextAppearance(viewItem.root.context, searchTextStyle)
+
+        viewItem.editTextSearch.setStyle(context, searchTextStyle)
 
         viewItem.root.layoutParams = LinearLayout.LayoutParams(searchViewWidth.toInt(), WRAP_CONTENT)
 
