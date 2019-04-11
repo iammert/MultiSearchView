@@ -81,6 +81,10 @@ fun EditText.onSearchAction(filter: Boolean = true, onSearchClicked: () -> Unit)
  */
 fun EditText.setStyle(context: Context, @StyleRes resId: Int) {
 
+    if (resId == 0){
+        return
+    }
+
     val attributes = EditTextAttributes.getAttributesList()
 
     val typedArray = context.obtainStyledAttributes(resId, attributes)

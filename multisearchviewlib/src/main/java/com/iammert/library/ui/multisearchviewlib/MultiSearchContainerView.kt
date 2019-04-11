@@ -23,8 +23,9 @@ class MultiSearchContainerView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
-) :
-    FrameLayout(context, attrs, defStyleAttr) {
+) : FrameLayout(context, attrs, defStyleAttr) {
+
+    var searchTextStyle = 0
 
     private var searchViewWidth: Float = 0f
 
@@ -110,7 +111,7 @@ class MultiSearchContainerView @JvmOverloads constructor(
         this.multiSearchViewListener = multiSearchViewListener
     }
 
-    fun search(searchTextStyle: Int) {
+    fun search() {
         if (isInSearchMode) {
             return
         }
@@ -118,7 +119,7 @@ class MultiSearchContainerView @JvmOverloads constructor(
         selectedTab?.let { deselectTab(it) }
 
         isInSearchMode = true
-        selectedTab = createNewSearchView(searchTextStyle)
+        selectedTab = createNewSearchView()
         binding.layoutItemContainer.addView(selectedTab?.root)
 
         selectedTab?.root?.afterMeasured {
@@ -182,7 +183,7 @@ class MultiSearchContainerView @JvmOverloads constructor(
 
     fun isInSearchMode() = isInSearchMode
 
-    private fun createNewSearchView(searchTextStyle: Int): ViewItemBinding {
+    private fun createNewSearchView(): ViewItemBinding {
         val viewItem: ViewItemBinding = context.inflate(R.layout.view_item)
 
         viewItem.editTextSearch.setStyle(context, searchTextStyle)
