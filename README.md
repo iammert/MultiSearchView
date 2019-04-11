@@ -47,6 +47,10 @@ dependencies {
 }
 ```
 
+# Thanks to contributers
+
+* [Mert Ceyhan](https://github.com/mertceyhan)
+
 License
 --------
 
