@@ -23,6 +23,13 @@ class MultiSearchView @JvmOverloads constructor(context: Context, attrs: Attribu
     private val binding = inflate<ViewMultiSearchBinding>(R.layout.view_multi_search)
 
     init {
+        val typedArray = context.theme.obtainStyledAttributes(attrs, R.styleable.MultiSearchView, defStyleAttr, defStyleAttr)
+        val searchTextStyle = typedArray.getResourceId(R.styleable.MultiSearchView_searchTextStyle, 0)
+
+        binding.searchViewContainer.apply {
+            this.searchTextStyle = searchTextStyle
+        }
+
         binding.imageViewSearch.setOnClickListener {
             if (binding.searchViewContainer.isInSearchMode().not()) {
                 binding.searchViewContainer.search()
