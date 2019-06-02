@@ -33,6 +33,37 @@ multiSearchView.setSearchViewListener(object : MultiSearchView.MultiSearchViewLi
 })
 ```
 
+## Customize
+If you need custimize to MultiSearchView, you should add style set under styles.xml
+```xml
+     <!-- Search Text Style. -->
+    <style name="SearchTextStyle">
+        <!-- Custom values write to here for SearchEditText. -->
+        <item name="android:focusable">true</item>
+        <item name="android:focusableInTouchMode">true</item>
+        <item name="android:enabled">true</item>
+        <item name="android:hint">Search</item>
+        <item name="android:imeOptions">actionSearch</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:maxLength">15</item>
+        <item name="android:inputType">textCapSentences</item>
+        <item name="android:textColorHint">#80999999</item>
+        <item name="android:textColor">#000</item>
+    </style>
+```
+
+Thereafter, you should give style set to app:searchTextStyle under MultiSearchView
+```xml
+        <com.iammert.library.ui.multisearchviewlib.MultiSearchView
+            android:id="@+id/multiSearchView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:searchTextStyle="@style/SearchTextStyle" />
+```
+
+That's it. You created own style for MultiSearchView
+
 ## Setup
 ```gradle
 allprojects {
