@@ -34,7 +34,7 @@ multiSearchView.setSearchViewListener(object : MultiSearchView.MultiSearchViewLi
 ```
 
 ## Customize
-If you need custimize to MultiSearchView, you should add style set under styles.xml
+If you need customize MultiSearchView, firstly you should add style set under styles.xml
 ```xml
      <!-- Search Text Style. -->
     <style name="SearchTextStyle">
