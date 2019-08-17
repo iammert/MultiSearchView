@@ -1,0 +1,11 @@
+*.iml
+.gradle
+/local.properties
+/.idea/*
+/.idea/libraries
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+# Specify filepatterns you want git to ignore.
+
