@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: androidx.annotation:annotation:1.2.0-alpha01@jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/androidx.annotation/annotation/1.2.0-alpha01/cf0f760ea00702c040b3f8c9ccbe615ae26356dc/annotation-1.2.0-alpha01.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/androidx.annotation/annotation/1.2.0-alpha01/df9acce4eab41184c6ad166b55f36a753d2b5de0/annotation-1.2.0-alpha01-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
