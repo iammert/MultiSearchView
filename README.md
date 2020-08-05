@@ -74,7 +74,7 @@ allprojects {
 }
 
 dependencies {
-    implementation 'com.github.iammert:MultiSearchView:0.1'
+    implementation 'com.github.iammert:MultiSearchView:0.3'
 }
 ```
 
