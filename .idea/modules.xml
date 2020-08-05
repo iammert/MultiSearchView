@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/MultiSearchView.iml" filepath="$PROJECT_DIR$/MultiSearchView.iml" />
+      <module fileurl="file://$PROJECT_DIR$/MultiSearchView.iml" filepath="$PROJECT_DIR$/MultiSearchView.iml" group="MultiSearchView" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/MultiSearchView-app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/MultiSearchView-app.iml" group="MultiSearchView/app" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/multisearchviewlib/MultiSearchView-multisearchviewlib.iml" filepath="$PROJECT_DIR$/.idea/modules/multisearchviewlib/MultiSearchView-multisearchviewlib.iml" group="MultiSearchView/multisearchviewlib" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/multisearchviewlib/multisearchviewlib.iml" filepath="$PROJECT_DIR$/multisearchviewlib/multisearchviewlib.iml" />
     </modules>
