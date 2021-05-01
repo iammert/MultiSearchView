@@ -16,7 +16,6 @@ import com.iammert.library.ui.multisearchviewlib.extensions.*
 import com.iammert.library.ui.multisearchviewlib.helper.KeyboardHelper
 import com.iammert.library.ui.multisearchviewlib.helper.KeyboardHelper.hideKeyboard
 import com.iammert.library.ui.multisearchviewlib.helper.SimpleTextWatcher
-import kotlinx.android.synthetic.main.view_item.view.*
 
 
 class MultiSearchContainerView @JvmOverloads constructor(
@@ -53,7 +52,8 @@ class MultiSearchContainerView @JvmOverloads constructor(
 
             endListener {
                 selectedTab?.let {
-                    it.root.editTextSearch.requestFocus()
+//                    selectedTab!!.editTextSearch.requestFocus()
+                    it.editTextSearch.requestFocus()
                     KeyboardHelper.showKeyboard(context)
                 }
             }
@@ -79,7 +79,7 @@ class MultiSearchContainerView @JvmOverloads constructor(
         }
         endListener {
             selectedTab?.let {
-                it.root.editTextSearch.requestFocus()
+                it.editTextSearch.requestFocus()
                 KeyboardHelper.showKeyboard(context)
             }
         }
@@ -162,19 +162,19 @@ class MultiSearchContainerView @JvmOverloads constructor(
         }
 
         selectedTab?.let {
-            it.root.editTextSearch.isFocusable = false
-            it.root.editTextSearch.isFocusableInTouchMode = false
-            it.root.editTextSearch.clearFocus()
+            it.editTextSearch.isFocusable = false
+            it.editTextSearch.isFocusableInTouchMode = false
+            it.editTextSearch.clearFocus()
         }
 
         selectedTab?.let {
             val startWidthValue = it.root.measuredWidth
-            val endWidthValue = it.root.editTextSearch.measuredWidth + sizeRemoveIcon + defaultPadding
+            val endWidthValue = it.editTextSearch.measuredWidth + sizeRemoveIcon + defaultPadding
             searchCompleteCollapseAnimator.setIntValues(startWidthValue, endWidthValue)
             searchCompleteCollapseAnimator.start()
             multiSearchViewListener?.onSearchComplete(
                 binding.layoutItemContainer.childCount - 1,
-                it.root.editTextSearch.text
+                it.editTextSearch.text
             )
         }
 
@@ -200,7 +200,7 @@ class MultiSearchContainerView @JvmOverloads constructor(
             }
         }
 
-        viewItem.root.editTextSearch.setOnClickListener {
+        viewItem.editTextSearch.setOnClickListener {
             if (viewItem != selectedTab) {
                 multiSearchViewListener?.onItemSelected(
                     binding.layoutItemContainer.indexOfChild(viewItem.root),
@@ -217,7 +217,7 @@ class MultiSearchContainerView @JvmOverloads constructor(
             }
         })
 
-        viewItem.root.imageViewRemove.setOnClickListener {
+        viewItem.imageViewRemove.setOnClickListener {
             selectedTab?.let { removeTab(it) }
         }
 
