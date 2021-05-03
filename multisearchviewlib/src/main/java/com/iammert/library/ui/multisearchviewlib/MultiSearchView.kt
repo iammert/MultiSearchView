@@ -25,11 +25,13 @@ class MultiSearchView @JvmOverloads constructor(context: Context, attrs: Attribu
     init {
         val typedArray = context.theme.obtainStyledAttributes(attrs, R.styleable.MultiSearchView, defStyleAttr, defStyleAttr)
         val searchTextStyle = typedArray.getResourceId(R.styleable.MultiSearchView_searchTextStyle, 0)
+        val imageSource = typedArray.getResourceId(R.styleable.MultiSearchView_searchIcon, R.drawable.ic_round_search_24px)
 
         binding.searchViewContainer.apply {
             this.searchTextStyle = searchTextStyle
         }
 
+        setSearchIconDrawable(imageSource)
         binding.imageViewSearch.setOnClickListener {
             if (binding.searchViewContainer.isInSearchMode().not()) {
                 binding.searchViewContainer.search()
@@ -41,5 +43,10 @@ class MultiSearchView @JvmOverloads constructor(context: Context, attrs: Attribu
 
     fun setSearchViewListener(multiSearchViewListener: MultiSearchViewListener) {
         binding.searchViewContainer.setSearchViewListener(multiSearchViewListener)
+    }
+
+
+    fun setSearchIconDrawable(drawable: Int) {
+        binding.imageViewSearch.setImageResource(drawable)
     }
 }

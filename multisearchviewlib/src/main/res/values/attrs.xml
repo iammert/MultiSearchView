@@ -2,5 +2,6 @@
 <resources>
     <declare-styleable name="MultiSearchView">
         <attr name="searchTextStyle" format="reference"/>
+        <attr name="searchIcon" format="reference"/>
     </declare-styleable>
 </resources>

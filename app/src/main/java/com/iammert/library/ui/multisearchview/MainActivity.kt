@@ -13,6 +13,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val binding: ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
+        binding.multiSearchView.setSearchIconDrawable(R.drawable.ic_search)
         binding.multiSearchView.setSearchViewListener(object : MultiSearchView.MultiSearchViewListener{
             override fun onItemSelected(index: Int, s: CharSequence) {
                 Log.v("TEST", "onItemSelected: index: $index, query: $s")
