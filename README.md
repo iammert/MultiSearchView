@@ -8,6 +8,20 @@ All design credits goes to [Cuberto](https://dribbble.com/cuberto) And inspired 
 ## Video demo
 [Here](https://www.youtube.com/watch?v=p1HQkgMCpl8)
 
+## Setup
+```gradle
+allprojects {
+    repositories {
+        ...
+        maven { url 'https://jitpack.io' }
+    }
+}
+
+dependencies {
+    implementation 'com.github.iammert:MultiSearchView:0.3'
+}
+```
+
 ## Usage
 
 ```xml
@@ -64,19 +78,41 @@ Thereafter, you should give style set to app:searchTextStyle under MultiSearchVi
 
 That's it. You created own style for MultiSearchView
 
-## Setup
-```gradle
-allprojects {
-    repositories {
-        ...
-        maven { url 'https://jitpack.io' }
-    }
-}
+#### Change default search icon color
 
-dependencies {
-    implementation 'com.github.iammert:MultiSearchView:0.3'
-}
+NB: Changing the search icon's color works best when it is applied to the default icon
+
+- Put the color you want to set to the icon in your `colors.xml` file
+
+  ```xml
+  <color name="custom_purple">#6621E1</color>
+  ```
+
+- Then add the `searchIconColor` xml attribute to change the icon's color
+
+    <img src="art/custom_icon_color.jpg" alt="drawing" width="400"/>
+
+```xml
+   <com.iammert.library.ui.multisearchviewlib.MultiSearchView
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          app:searchIconColor="@color/custom_purple"/>
 ```
+
+
+#### Change search icon
+- xml
+ 
+<img src="art/customize_icon.jpg" alt="drawing" width="400"/>
+
+```xml
+	<com.iammert.library.ui.multisearchviewlib.MultiSearchView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:searchIcon="@drawable/ic_search"/>
+```
+
+
 
 # Thanks to contributers
 
@@ -87,13 +123,13 @@ License
 
 
     Copyright 2019 Mert Şimşek
-
+    
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
-
+    
        http://www.apache.org/licenses/LICENSE-2.0
-
+    
     Unless required by applicable law or agreed to in writing, software
     distributed under the License is distributed on an "AS IS" BASIS,
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
