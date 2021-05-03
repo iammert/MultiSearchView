@@ -88,7 +88,7 @@ That's it. You created own style for MultiSearchView
         android:layout_height="wrap_content"
         app:searchIcon="@drawable/ic_search"/> 
 ```
-
+<img src="art/customize_icon.jpg" alt="drawing" width="400" align="left"/>
 
 
 
