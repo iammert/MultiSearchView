@@ -82,14 +82,14 @@ That's it. You created own style for MultiSearchView
 
 - xml
 
+<img src="art/customize_icon.jpg" alt="drawing" width="400" align="left"/>
+
 ```xml
 <com.iammert.library.ui.multisearchviewlib.MultiSearchView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:searchIcon="@drawable/ic_search"/> 
 ```
-<img src="art/customize_icon.jpg" alt="drawing" width="400" align="left"/>
-
 
 
 # Thanks to contributers
