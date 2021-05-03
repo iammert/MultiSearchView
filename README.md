@@ -82,7 +82,7 @@ That's it. You created own style for MultiSearchView
 
 - xml
 
-<img src="art/customize_icon.jpg" alt="drawing" width="400" align="left"/>
+<img src="art/customize_icon.jpg" alt="drawing" width="400"/>
 
 ```xml
 <com.iammert.library.ui.multisearchviewlib.MultiSearchView
