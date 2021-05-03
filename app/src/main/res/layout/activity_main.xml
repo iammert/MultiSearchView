@@ -21,8 +21,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            app:searchTextStyle="@style/SearchTextStyle"
-                app:searchIcon="@drawable/ic_search"/>
+            app:searchIconColor="@color/custom_purple"
+            app:searchTextStyle="@style/SearchTextStyle"/>
     </LinearLayout>
 
 </layout>
