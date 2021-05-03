@@ -8,6 +8,20 @@ All design credits goes to [Cuberto](https://dribbble.com/cuberto) And inspired 
 ## Video demo
 [Here](https://www.youtube.com/watch?v=p1HQkgMCpl8)
 
+## Setup
+```gradle
+allprojects {
+    repositories {
+        ...
+        maven { url 'https://jitpack.io' }
+    }
+}
+
+dependencies {
+    implementation 'com.github.iammert:MultiSearchView:0.3'
+}
+```
+
 ## Usage
 
 ```xml
@@ -64,19 +78,19 @@ Thereafter, you should give style set to app:searchTextStyle under MultiSearchVi
 
 That's it. You created own style for MultiSearchView
 
-## Setup
-```gradle
-allprojects {
-    repositories {
-        ...
-        maven { url 'https://jitpack.io' }
-    }
-}
+#### Change search icon
 
-dependencies {
-    implementation 'com.github.iammert:MultiSearchView:0.3'
-}
+- xml
+
+```xml
+<com.iammert.library.ui.multisearchviewlib.MultiSearchView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:searchIcon="@drawable/ic_search"/> 
 ```
+
+
+
 
 # Thanks to contributers
 
@@ -87,13 +101,13 @@ License
 
 
     Copyright 2019 Mert Şimşek
-
+    
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
-
+    
        http://www.apache.org/licenses/LICENSE-2.0
-
+    
     Unless required by applicable law or agreed to in writing, software
     distributed under the License is distributed on an "AS IS" BASIS,
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
