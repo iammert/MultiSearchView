@@ -2,5 +2,9 @@
 <resources>
     <declare-styleable name="MultiSearchView">
         <attr name="searchTextStyle" format="reference"/>
+        <!--set custom icon for the search icon-->
+        <attr name="searchIcon" format="reference"/>
+        <!--set icon color for the default icon-->
+        <attr name="searchIconColor" format="reference|color"/>
     </declare-styleable>
 </resources>

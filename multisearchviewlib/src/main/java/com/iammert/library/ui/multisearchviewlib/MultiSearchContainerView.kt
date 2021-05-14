@@ -52,7 +52,6 @@ class MultiSearchContainerView @JvmOverloads constructor(
 
             endListener {
                 selectedTab?.let {
-//                    selectedTab!!.editTextSearch.requestFocus()
                     it.editTextSearch.requestFocus()
                     KeyboardHelper.showKeyboard(context)
                 }
