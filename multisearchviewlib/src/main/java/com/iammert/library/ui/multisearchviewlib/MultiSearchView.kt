@@ -30,8 +30,11 @@ class MultiSearchView @JvmOverloads constructor(context: Context, attrs: Attribu
         val searchTextStyle = typedArray.getResourceId(R.styleable.MultiSearchView_searchTextStyle, 0)
         val imageSource = typedArray.getResourceId(R.styleable.MultiSearchView_searchIcon, R.drawable.ic_round_search_24px)
         val searchIconColor = typedArray.getResourceId(R.styleable.MultiSearchView_searchIconColor, android.R.color.black)
+        val selectedTabStyle = typedArray.getInteger(R.styleable.MultiSearchView_selectedTabStyle, 0)
+
         binding.searchViewContainer.apply {
             this.searchTextStyle = searchTextStyle
+            this.selectedTabStyle = selectedTabStyle
         }
 
         setSearchIconDrawable(imageSource)

@@ -24,6 +24,8 @@ class MultiSearchContainerView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr) {
 
+    var selectedTabStyle = 0
+
     var searchTextStyle = 0
 
     private var searchViewWidth: Float = 0f
@@ -88,7 +90,10 @@ class MultiSearchContainerView @JvmOverloads constructor(
         duration = DEFAULT_ANIM_DURATION
         interpolator = LinearOutSlowInInterpolator()
         addUpdateListener { valueAnimator ->
-            binding.viewIndicator.x = valueAnimator.animatedValue as Float
+            when (selectedTabStyle) {
+                0 -> binding.viewIndicator.x = valueAnimator.animatedValue as Float
+                1 -> binding.viewIndicator2.x = valueAnimator.animatedValue as Float
+            }
         }
     }
 
@@ -245,7 +250,11 @@ class MultiSearchContainerView @JvmOverloads constructor(
 
         when {
             currentChildCount == 1 -> {
-                binding.viewIndicator.visibility = View.INVISIBLE
+                when (selectedTabStyle) {
+                    0 -> binding.viewIndicator.visibility = View.INVISIBLE
+                    1 -> binding.viewIndicator2.visibility = View.INVISIBLE
+                }
+
                 binding.layoutItemContainer.removeView(viewItemBinding.root)
             }
             removeIndex == currentChildCount - 1 -> {
@@ -268,18 +277,32 @@ class MultiSearchContainerView @JvmOverloads constructor(
     }
 
     private fun selectTab(viewItemBinding: ViewItemBinding) {
-        val indicatorCurrentXPosition = binding.viewIndicator.x
+        val indicatorCurrentXPosition: Float = when (selectedTabStyle) {
+            0 -> binding.viewIndicator.x
+            1 -> binding.viewIndicator2.x
+            else -> binding.viewIndicator.x
+        }
+
         val indicatorTargetXPosition = viewItemBinding.root.x
         indicatorAnimator.setFloatValues(indicatorCurrentXPosition, indicatorTargetXPosition)
         indicatorAnimator.start()
 
-        binding.viewIndicator.visibility = View.VISIBLE
+
+        when (selectedTabStyle) {
+            0 -> binding.viewIndicator.visibility = View.VISIBLE
+            1 -> binding.viewIndicator2.visibility = View.VISIBLE
+        }
+
         viewItemBinding.imageViewRemove.visibility = View.VISIBLE
         viewItemBinding.editTextSearch.alpha = 1f
     }
 
     private fun deselectTab(viewItemBinding: ViewItemBinding) {
-        binding.viewIndicator.visibility = View.INVISIBLE
+        when (selectedTabStyle) {
+            0 -> binding.viewIndicator.visibility = View.INVISIBLE
+            1 -> binding.viewIndicator2.visibility = View.INVISIBLE
+        }
+
         viewItemBinding.imageViewRemove.visibility = View.GONE
         viewItemBinding.editTextSearch.alpha = 0.5f
     }
