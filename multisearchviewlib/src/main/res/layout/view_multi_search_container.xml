@@ -26,12 +26,22 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"/>
 
+                <!--selected tab mode : line-->
                 <View
                         android:id="@+id/viewIndicator"
                         android:layout_width="24dp"
                         android:layout_height="4dp"
                         android:background="@drawable/indicator_line"
-                        android:visibility="invisible"/>
+                        android:visibility="gone"/>
+
+                <!--selected tab mode : dot-->
+                <View
+                        android:id="@+id/viewIndicator2"
+                        android:layout_width="5dp"
+                        android:layout_height="5dp"
+                        android:background="@drawable/indicator_line"
+                        android:visibility="gone"
+                        android:layout_marginTop="8dp"/>
 
             </LinearLayout>
 

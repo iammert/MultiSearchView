@@ -1,8 +1,11 @@
 package com.iammert.library.ui.multisearchviewlib
 
 import android.content.Context
+import android.os.Build
 import android.util.AttributeSet
 import android.widget.RelativeLayout
+import androidx.annotation.RequiresApi
+import androidx.appcompat.content.res.AppCompatResources
 import com.iammert.library.ui.multisearchviewlib.databinding.ViewMultiSearchBinding
 import com.iammert.library.ui.multisearchviewlib.extensions.inflate
 
@@ -25,9 +28,19 @@ class MultiSearchView @JvmOverloads constructor(context: Context, attrs: Attribu
     init {
         val typedArray = context.theme.obtainStyledAttributes(attrs, R.styleable.MultiSearchView, defStyleAttr, defStyleAttr)
         val searchTextStyle = typedArray.getResourceId(R.styleable.MultiSearchView_searchTextStyle, 0)
+        val imageSource = typedArray.getResourceId(R.styleable.MultiSearchView_searchIcon, R.drawable.ic_round_search_24px)
+        val searchIconColor = typedArray.getResourceId(R.styleable.MultiSearchView_searchIconColor, android.R.color.black)
+        val selectedTabStyle = typedArray.getInteger(R.styleable.MultiSearchView_selectedTabStyle, 0)
 
         binding.searchViewContainer.apply {
             this.searchTextStyle = searchTextStyle
+            this.selectedTabStyle = selectedTabStyle
+        }
+
+        setSearchIconDrawable(imageSource)
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            setSearchIconColor(searchIconColor)
         }
 
         binding.imageViewSearch.setOnClickListener {
@@ -42,4 +55,15 @@ class MultiSearchView @JvmOverloads constructor(context: Context, attrs: Attribu
     fun setSearchViewListener(multiSearchViewListener: MultiSearchViewListener) {
         binding.searchViewContainer.setSearchViewListener(multiSearchViewListener)
     }
+
+
+    fun setSearchIconDrawable(drawable: Int) {
+        binding.imageViewSearch.setImageResource(drawable)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    fun setSearchIconColor(color : Int) {
+        binding.imageViewSearch.imageTintList = AppCompatResources.getColorStateList(context, color)
+    }
+
 }

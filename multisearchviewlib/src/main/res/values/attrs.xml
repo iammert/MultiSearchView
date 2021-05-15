@@ -2,5 +2,14 @@
 <resources>
     <declare-styleable name="MultiSearchView">
         <attr name="searchTextStyle" format="reference"/>
+        <!--set custom icon for the search icon-->
+        <attr name="searchIcon" format="reference"/>
+        <!--set icon color for the default icon-->
+        <attr name="searchIconColor" format="reference|color"/>
+        <!--set selected tab style-->
+        <attr name="selectedTabStyle" format="enum">
+            <enum name="line" value="0"/>
+            <enum name="dot" value="1"/>
+        </attr>
     </declare-styleable>
 </resources>

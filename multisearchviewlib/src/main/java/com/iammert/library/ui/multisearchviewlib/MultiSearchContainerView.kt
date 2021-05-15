@@ -16,7 +16,6 @@ import com.iammert.library.ui.multisearchviewlib.extensions.*
 import com.iammert.library.ui.multisearchviewlib.helper.KeyboardHelper
 import com.iammert.library.ui.multisearchviewlib.helper.KeyboardHelper.hideKeyboard
 import com.iammert.library.ui.multisearchviewlib.helper.SimpleTextWatcher
-import kotlinx.android.synthetic.main.view_item.view.*
 
 
 class MultiSearchContainerView @JvmOverloads constructor(
@@ -24,6 +23,8 @@ class MultiSearchContainerView @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr) {
+
+    var selectedTabStyle = 0
 
     var searchTextStyle = 0
 
@@ -53,7 +54,7 @@ class MultiSearchContainerView @JvmOverloads constructor(
 
             endListener {
                 selectedTab?.let {
-                    it.root.editTextSearch.requestFocus()
+                    it.editTextSearch.requestFocus()
                     KeyboardHelper.showKeyboard(context)
                 }
             }
@@ -79,7 +80,7 @@ class MultiSearchContainerView @JvmOverloads constructor(
         }
         endListener {
             selectedTab?.let {
-                it.root.editTextSearch.requestFocus()
+                it.editTextSearch.requestFocus()
                 KeyboardHelper.showKeyboard(context)
             }
         }
@@ -89,7 +90,10 @@ class MultiSearchContainerView @JvmOverloads constructor(
         duration = DEFAULT_ANIM_DURATION
         interpolator = LinearOutSlowInInterpolator()
         addUpdateListener { valueAnimator ->
-            binding.viewIndicator.x = valueAnimator.animatedValue as Float
+            when (selectedTabStyle) {
+                0 -> binding.viewIndicator.x = valueAnimator.animatedValue as Float
+                1 -> binding.viewIndicator2.x = valueAnimator.animatedValue as Float
+            }
         }
     }
 
@@ -162,19 +166,19 @@ class MultiSearchContainerView @JvmOverloads constructor(
         }
 
         selectedTab?.let {
-            it.root.editTextSearch.isFocusable = false
-            it.root.editTextSearch.isFocusableInTouchMode = false
-            it.root.editTextSearch.clearFocus()
+            it.editTextSearch.isFocusable = false
+            it.editTextSearch.isFocusableInTouchMode = false
+            it.editTextSearch.clearFocus()
         }
 
         selectedTab?.let {
             val startWidthValue = it.root.measuredWidth
-            val endWidthValue = it.root.editTextSearch.measuredWidth + sizeRemoveIcon + defaultPadding
+            val endWidthValue = it.editTextSearch.measuredWidth + sizeRemoveIcon + defaultPadding
             searchCompleteCollapseAnimator.setIntValues(startWidthValue, endWidthValue)
             searchCompleteCollapseAnimator.start()
             multiSearchViewListener?.onSearchComplete(
                 binding.layoutItemContainer.childCount - 1,
-                it.root.editTextSearch.text
+                it.editTextSearch.text
             )
         }
 
@@ -200,7 +204,7 @@ class MultiSearchContainerView @JvmOverloads constructor(
             }
         }
 
-        viewItem.root.editTextSearch.setOnClickListener {
+        viewItem.editTextSearch.setOnClickListener {
             if (viewItem != selectedTab) {
                 multiSearchViewListener?.onItemSelected(
                     binding.layoutItemContainer.indexOfChild(viewItem.root),
@@ -217,7 +221,7 @@ class MultiSearchContainerView @JvmOverloads constructor(
             }
         })
 
-        viewItem.root.imageViewRemove.setOnClickListener {
+        viewItem.imageViewRemove.setOnClickListener {
             selectedTab?.let { removeTab(it) }
         }
 
@@ -246,7 +250,11 @@ class MultiSearchContainerView @JvmOverloads constructor(
 
         when {
             currentChildCount == 1 -> {
-                binding.viewIndicator.visibility = View.INVISIBLE
+                when (selectedTabStyle) {
+                    0 -> binding.viewIndicator.visibility = View.INVISIBLE
+                    1 -> binding.viewIndicator2.visibility = View.INVISIBLE
+                }
+
                 binding.layoutItemContainer.removeView(viewItemBinding.root)
             }
             removeIndex == currentChildCount - 1 -> {
@@ -269,18 +277,32 @@ class MultiSearchContainerView @JvmOverloads constructor(
     }
 
     private fun selectTab(viewItemBinding: ViewItemBinding) {
-        val indicatorCurrentXPosition = binding.viewIndicator.x
+        val indicatorCurrentXPosition: Float = when (selectedTabStyle) {
+            0 -> binding.viewIndicator.x
+            1 -> binding.viewIndicator2.x
+            else -> binding.viewIndicator.x
+        }
+
         val indicatorTargetXPosition = viewItemBinding.root.x
         indicatorAnimator.setFloatValues(indicatorCurrentXPosition, indicatorTargetXPosition)
         indicatorAnimator.start()
 
-        binding.viewIndicator.visibility = View.VISIBLE
+
+        when (selectedTabStyle) {
+            0 -> binding.viewIndicator.visibility = View.VISIBLE
+            1 -> binding.viewIndicator2.visibility = View.VISIBLE
+        }
+
         viewItemBinding.imageViewRemove.visibility = View.VISIBLE
         viewItemBinding.editTextSearch.alpha = 1f
     }
 
     private fun deselectTab(viewItemBinding: ViewItemBinding) {
-        binding.viewIndicator.visibility = View.INVISIBLE
+        when (selectedTabStyle) {
+            0 -> binding.viewIndicator.visibility = View.INVISIBLE
+            1 -> binding.viewIndicator2.visibility = View.INVISIBLE
+        }
+
         viewItemBinding.imageViewRemove.visibility = View.GONE
         viewItemBinding.editTextSearch.alpha = 0.5f
     }
