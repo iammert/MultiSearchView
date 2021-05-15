@@ -78,6 +78,22 @@ Thereafter, you should give style set to app:searchTextStyle under MultiSearchVi
 
 That's it. You created own style for MultiSearchView
 
+
+
+#### Change selected tab style
+There are currently two styles available. The `dot` style and the `line` style
+
+```xml
+	app:selectedTabStyle="dot"
+```
+<img src="art/dotstyle.jpg" alt="drawing" width="400"/>
+
+
+```xml
+	app:selectedTabStyle="line"
+```
+<img src="art/linestyle.jpg" alt="drawing" width="400"/>
+
 #### Change default search icon color
 
 NB: Changing the search icon's color works best when it is applied to the default icon
@@ -99,14 +115,13 @@ NB: Changing the search icon's color works best when it is applied to the defaul
           app:searchIconColor="@color/custom_purple"/>
 ```
 
-
 #### Change search icon
 - xml
- 
+
 <img src="art/customize_icon.jpg" alt="drawing" width="400"/>
 
 ```xml
-	<com.iammert.library.ui.multisearchviewlib.MultiSearchView
+<com.iammert.library.ui.multisearchviewlib.MultiSearchView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:searchIcon="@drawable/ic_search"/>
