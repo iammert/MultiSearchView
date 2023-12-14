@@ -4,11 +4,11 @@ import android.animation.LayoutTransition
 import android.animation.ValueAnimator
 import android.content.Context
 import android.util.AttributeSet
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.FrameLayout
 import android.widget.LinearLayout
-import androidx.databinding.DataBindingUtil
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import com.iammert.library.ui.multisearchviewlib.databinding.ViewItemBinding
 import com.iammert.library.ui.multisearchviewlib.databinding.ViewMultiSearchContainerBinding
@@ -30,7 +30,7 @@ class MultiSearchContainerView @JvmOverloads constructor(
 
     private var viewWidth: Float = 0f
 
-    private val binding: ViewMultiSearchContainerBinding = inflate(R.layout.view_multi_search_container)
+    private val binding = ViewMultiSearchContainerBinding.inflate(LayoutInflater.from(context), this, true)
 
     private val sizeRemoveIcon = context.resources.getDimensionPixelSize(R.dimen.msv_size_remove_icon)
 
@@ -183,7 +183,7 @@ class MultiSearchContainerView @JvmOverloads constructor(
     fun isInSearchMode() = isInSearchMode
 
     private fun createNewSearchView(): ViewItemBinding {
-        val viewItem: ViewItemBinding = context.inflate(R.layout.view_item)
+        val viewItem = ViewItemBinding.inflate(LayoutInflater.from(context), binding.layoutItemContainer, false)
 
         viewItem.editTextSearch.setStyle(context, searchTextStyle)
 
@@ -250,15 +250,15 @@ class MultiSearchContainerView @JvmOverloads constructor(
             }
             removeIndex == currentChildCount - 1 -> {
                 val newSelectedView = binding.layoutItemContainer.getChildAt(removeIndex - 1)
-                val newSelectedViewBinding = DataBindingUtil.bind<ViewItemBinding>(newSelectedView)
-                selectTab(newSelectedViewBinding!!)
+                val newSelectedViewBinding = ViewItemBinding.bind(newSelectedView)
+                selectTab(newSelectedViewBinding)
                 binding.layoutItemContainer.removeView(viewItemBinding.root)
                 selectedTab = newSelectedViewBinding
             }
             else -> {
                 val newSelectedTabView = binding.layoutItemContainer.getChildAt(removeIndex + 1)
-                val newSelectedViewBinding = DataBindingUtil.bind<ViewItemBinding>(newSelectedTabView)
-                selectTab(newSelectedViewBinding!!)
+                val newSelectedViewBinding = ViewItemBinding.bind(newSelectedTabView)
+                selectTab(newSelectedViewBinding)
                 binding.layoutItemContainer.removeView(viewItemBinding.root)
                 selectedTab = newSelectedViewBinding
             }

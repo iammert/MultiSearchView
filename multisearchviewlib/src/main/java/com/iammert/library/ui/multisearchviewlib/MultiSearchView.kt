@@ -2,9 +2,9 @@ package com.iammert.library.ui.multisearchviewlib
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.LayoutInflater
 import android.widget.RelativeLayout
 import com.iammert.library.ui.multisearchviewlib.databinding.ViewMultiSearchBinding
-import com.iammert.library.ui.multisearchviewlib.extensions.inflate
 
 class MultiSearchView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
     RelativeLayout(context, attrs, defStyleAttr) {
@@ -20,7 +20,7 @@ class MultiSearchView @JvmOverloads constructor(context: Context, attrs: Attribu
         fun onItemSelected(index: Int, s: CharSequence)
     }
 
-    private val binding = inflate<ViewMultiSearchBinding>(R.layout.view_multi_search)
+    private val binding = ViewMultiSearchBinding.inflate(LayoutInflater.from(context), this, true)
 
     init {
         val typedArray = context.theme.obtainStyledAttributes(attrs, R.styleable.MultiSearchView, defStyleAttr, defStyleAttr)
