@@ -70,7 +70,7 @@ fun EditText.onSearchAction(filter: Boolean = true, onSearchClicked: () -> Unit)
  * android.R.attr.paddingRight
  * android.R.attr.paddingLeft
  * android.R.attr.textColorHighlight
- * android.R.attr.text
+ * android.R.attr.textColorLink
  * android.R.attr.textStyle
  * android.R.attr.fontFamily
  *
@@ -300,7 +300,7 @@ private class EditTextAttributes {
         const val attrPaddingRight = android.R.attr.paddingRight
         const val attrPaddingLeft = android.R.attr.paddingLeft
         const val attrTextColorHighlight = android.R.attr.textColorHighlight
-        const val attrTextColorLink = android.R.attr.text
+        const val attrTextColorLink = android.R.attr.textColorLink
         const val attrTextStyle = android.R.attr.textStyle
         const val attrFontFamily = android.R.attr.fontFamily
 
