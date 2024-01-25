@@ -40,6 +40,8 @@ class MultiSearchContainerView @JvmOverloads constructor(
 
     private var selectedTab: ViewItemBinding? = null
 
+    private val tabs = mutableListOf<ViewItemBinding>()
+
     private var multiSearchViewListener: MultiSearchView.MultiSearchViewListener? = null
 
     private val searchEnterScrollAnimation = ValueAnimator.ofInt()
@@ -119,7 +121,10 @@ class MultiSearchContainerView @JvmOverloads constructor(
 
         isInSearchMode = true
         selectedTab = createNewSearchView()
-        binding.layoutItemContainer.addView(selectedTab?.root)
+        selectedTab?.let {
+            tabs.add(it)
+            binding.layoutItemContainer.addView(it.root)
+        }
 
         selectedTab?.root?.afterMeasured {
             val widthWithoutCurrentSearch = widthWithoutCurrentSearch()
@@ -239,30 +244,31 @@ class MultiSearchContainerView @JvmOverloads constructor(
     }
 
     private fun removeTab(viewItemBinding: ViewItemBinding) {
-        val removeIndex = binding.layoutItemContainer.indexOfChild(viewItemBinding.root)
+        val removeIndex = tabs.indexOf(viewItemBinding)
+        if (removeIndex == -1) {
+            return
+        }
 
-        val currentChildCount = binding.layoutItemContainer.childCount
+        val currentChildCount = tabs.size
 
         when {
             currentChildCount == 1 -> {
                 binding.viewIndicator.visibility = View.INVISIBLE
-                binding.layoutItemContainer.removeView(viewItemBinding.root)
             }
             removeIndex == currentChildCount - 1 -> {
-                val newSelectedView = binding.layoutItemContainer.getChildAt(removeIndex - 1)
-                val newSelectedViewBinding = ViewItemBinding.bind(newSelectedView)
+                val newSelectedViewBinding = tabs[removeIndex - 1]
                 selectTab(newSelectedViewBinding)
-                binding.layoutItemContainer.removeView(viewItemBinding.root)
                 selectedTab = newSelectedViewBinding
             }
             else -> {
-                val newSelectedTabView = binding.layoutItemContainer.getChildAt(removeIndex + 1)
-                val newSelectedViewBinding = ViewItemBinding.bind(newSelectedTabView)
+                val newSelectedViewBinding = tabs[removeIndex + 1]
                 selectTab(newSelectedViewBinding)
-                binding.layoutItemContainer.removeView(viewItemBinding.root)
                 selectedTab = newSelectedViewBinding
             }
         }
+
+        tabs.removeAt(removeIndex)
+        binding.layoutItemContainer.removeView(viewItemBinding.root)
 
         multiSearchViewListener?.onSearchItemRemoved(removeIndex)
     }
