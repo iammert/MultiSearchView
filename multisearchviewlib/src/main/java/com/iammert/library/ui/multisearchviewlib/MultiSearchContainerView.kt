@@ -254,6 +254,7 @@ class MultiSearchContainerView @JvmOverloads constructor(
         when {
             currentChildCount == 1 -> {
                 binding.viewIndicator.visibility = View.INVISIBLE
+                selectedTab = null
             }
             removeIndex == currentChildCount - 1 -> {
                 val newSelectedViewBinding = tabs[removeIndex - 1]
