@@ -176,10 +176,7 @@ class MultiSearchContainerView @JvmOverloads constructor(
             val endWidthValue = it.editTextSearch.measuredWidth + sizeRemoveIcon + defaultPadding
             searchCompleteCollapseAnimator.setIntValues(startWidthValue, endWidthValue)
             searchCompleteCollapseAnimator.start()
-            multiSearchViewListener?.onSearchComplete(
-                binding.layoutItemContainer.childCount - 1,
-                it.editTextSearch.text
-            )
+            multiSearchViewListener?.onSearchComplete(tabs.indexOf(it), it.editTextSearch.text)
         }
 
         selectedTab?.let { selectTab(it) }
@@ -197,7 +194,7 @@ class MultiSearchContainerView @JvmOverloads constructor(
         viewItem.root.setOnClickListener {
             if (viewItem != selectedTab) {
                 multiSearchViewListener?.onItemSelected(
-                    binding.layoutItemContainer.indexOfChild(viewItem.root),
+                    tabs.indexOf(viewItem),
                     viewItem.editTextSearch.text
                 )
                 changeSelectedTab(viewItem)
@@ -207,7 +204,7 @@ class MultiSearchContainerView @JvmOverloads constructor(
         viewItem.editTextSearch.setOnClickListener {
             if (viewItem != selectedTab) {
                 multiSearchViewListener?.onItemSelected(
-                    binding.layoutItemContainer.indexOfChild(viewItem.root),
+                    tabs.indexOf(viewItem),
                     viewItem.editTextSearch.text
                 )
                 changeSelectedTab(viewItem)
@@ -217,7 +214,10 @@ class MultiSearchContainerView @JvmOverloads constructor(
         viewItem.editTextSearch.addTextChangedListener(object : SimpleTextWatcher() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 super.onTextChanged(s, start, before, count)
-                s?.let { multiSearchViewListener?.onTextChanged(binding.layoutItemContainer.childCount - 1, it) }
+                val index = tabs.indexOf(viewItem)
+                if (s != null && index != -1) {
+                    multiSearchViewListener?.onTextChanged(index, s)
+                }
             }
         })
 
