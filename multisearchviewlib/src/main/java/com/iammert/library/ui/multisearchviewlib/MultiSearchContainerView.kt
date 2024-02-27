@@ -176,7 +176,7 @@ class MultiSearchContainerView @JvmOverloads constructor(
             val endWidthValue = it.editTextSearch.measuredWidth + sizeRemoveIcon + defaultPadding
             searchCompleteCollapseAnimator.setIntValues(startWidthValue, endWidthValue)
             searchCompleteCollapseAnimator.start()
-            multiSearchViewListener?.onSearchComplete(tabs.indexOf(it), it.editTextSearch.text)
+            multiSearchViewListener?.onSearchComplete(tabs.indexOf(it), it.editTextSearch.text.toString())
         }
 
         selectedTab?.let { selectTab(it) }
@@ -195,7 +195,7 @@ class MultiSearchContainerView @JvmOverloads constructor(
             if (viewItem != selectedTab) {
                 multiSearchViewListener?.onItemSelected(
                     tabs.indexOf(viewItem),
-                    viewItem.editTextSearch.text
+                    viewItem.editTextSearch.text.toString()
                 )
                 changeSelectedTab(viewItem)
             }
@@ -205,7 +205,7 @@ class MultiSearchContainerView @JvmOverloads constructor(
             if (viewItem != selectedTab) {
                 multiSearchViewListener?.onItemSelected(
                     tabs.indexOf(viewItem),
-                    viewItem.editTextSearch.text
+                    viewItem.editTextSearch.text.toString()
                 )
                 changeSelectedTab(viewItem)
             }
@@ -216,7 +216,7 @@ class MultiSearchContainerView @JvmOverloads constructor(
                 super.onTextChanged(s, start, before, count)
                 val index = tabs.indexOf(viewItem)
                 if (s != null && index != -1) {
-                    multiSearchViewListener?.onTextChanged(index, s)
+                    multiSearchViewListener?.onTextChanged(index, s.toString())
                 }
             }
         })
