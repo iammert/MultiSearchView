@@ -14,7 +14,6 @@ import com.iammert.library.ui.multisearchviewlib.databinding.ViewItemBinding
 import com.iammert.library.ui.multisearchviewlib.databinding.ViewMultiSearchContainerBinding
 import com.iammert.library.ui.multisearchviewlib.extensions.*
 import com.iammert.library.ui.multisearchviewlib.helper.KeyboardHelper
-import com.iammert.library.ui.multisearchviewlib.helper.KeyboardHelper.hideKeyboard
 import com.iammert.library.ui.multisearchviewlib.helper.SimpleTextWatcher
 
 
@@ -55,7 +54,7 @@ class MultiSearchContainerView @JvmOverloads constructor(
             endListener {
                 selectedTab?.let {
                     it.editTextSearch.requestFocus()
-                    KeyboardHelper.showKeyboard(context)
+                    KeyboardHelper.showKeyboard(it.editTextSearch)
                 }
             }
         }
@@ -81,7 +80,7 @@ class MultiSearchContainerView @JvmOverloads constructor(
         endListener {
             selectedTab?.let {
                 it.editTextSearch.requestFocus()
-                KeyboardHelper.showKeyboard(context)
+                KeyboardHelper.showKeyboard(it.editTextSearch)
             }
         }
     }
@@ -156,7 +155,7 @@ class MultiSearchContainerView @JvmOverloads constructor(
         }
 
         isInSearchMode = false
-        hideKeyboard(context)
+        KeyboardHelper.hideKeyboard(this)
 
         selectedTab?.let {
             if (it.editTextSearch.text.length < 3) {
