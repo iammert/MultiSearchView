@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.FrameLayout
 import android.widget.LinearLayout
+import androidx.core.view.doOnLayout
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import com.iammert.library.ui.multisearchviewlib.databinding.ViewItemBinding
 import com.iammert.library.ui.multisearchviewlib.databinding.ViewMultiSearchContainerBinding
@@ -125,7 +126,7 @@ class MultiSearchContainerView @JvmOverloads constructor(
             binding.layoutItemContainer.addView(it.root)
         }
 
-        selectedTab?.root?.afterMeasured {
+        selectedTab?.root?.doOnLayout {
             val widthWithoutCurrentSearch = widthWithoutCurrentSearch()
 
             when {
