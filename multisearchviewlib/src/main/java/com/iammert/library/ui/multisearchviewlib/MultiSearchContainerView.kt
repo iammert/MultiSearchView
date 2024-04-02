@@ -49,7 +49,7 @@ class MultiSearchContainerView @JvmOverloads constructor(
             duration = DEFAULT_ANIM_DURATION
             interpolator = LinearOutSlowInInterpolator()
             addUpdateListener {
-                binding.horizontalScrollView.smoothScrollTo(it.animatedValue as Int, 0)
+                binding.horizontalScrollView.scrollTo(it.animatedValue as Int, 0)
             }
 
             endListener {
