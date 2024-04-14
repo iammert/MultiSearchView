@@ -102,6 +102,18 @@ class MultiSearchContainerView @JvmOverloads constructor(
             }
     }
 
+    override fun onDetachedFromWindow() {
+        cancelAnimations()
+        super.onDetachedFromWindow()
+    }
+
+    private fun cancelAnimations() {
+        searchEnterScrollAnimation.cancel()
+        searchCompleteCollapseAnimator.cancel()
+        firstSearchTranslateAnimator.cancel()
+        indicatorAnimator.cancel()
+    }
+
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
         viewWidth = measuredWidth.toFloat()
@@ -117,6 +129,7 @@ class MultiSearchContainerView @JvmOverloads constructor(
             return
         }
 
+        cancelAnimations()
         selectedTab?.let { deselectTab(it) }
 
         isInSearchMode = true

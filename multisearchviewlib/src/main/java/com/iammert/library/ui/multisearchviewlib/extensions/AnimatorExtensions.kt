@@ -1,14 +1,28 @@
 package com.iammert.library.ui.multisearchviewlib.extensions
 
 import android.animation.Animator
-import android.animation.ValueAnimator
-import com.iammert.library.ui.multisearchviewlib.helper.SimpleAnimationListener
+import android.animation.AnimatorListenerAdapter
 
-fun ValueAnimator.endListener(onAnimationEnd: ()->Unit){
-    addListener(object : SimpleAnimationListener(){
+/**
+ * Runs [onAnimationEnd] when the animator finishes normally. Unlike
+ * [androidx.core.animation.doOnEnd] the action is skipped when the animation is cancelled.
+ */
+fun Animator.endListener(onAnimationEnd: () -> Unit) {
+    addListener(object : AnimatorListenerAdapter() {
+        private var cancelled = false
+
+        override fun onAnimationStart(animation: Animator) {
+            cancelled = false
+        }
+
+        override fun onAnimationCancel(animation: Animator) {
+            cancelled = true
+        }
+
         override fun onAnimationEnd(animation: Animator) {
-            super.onAnimationEnd(animation)
-            onAnimationEnd.invoke()
+            if (!cancelled) {
+                onAnimationEnd.invoke()
+            }
         }
     })
 }
