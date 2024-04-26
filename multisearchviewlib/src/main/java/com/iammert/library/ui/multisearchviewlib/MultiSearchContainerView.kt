@@ -10,6 +10,7 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import androidx.core.view.doOnLayout
+import androidx.core.view.doOnNextLayout
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import com.iammert.library.ui.multisearchviewlib.databinding.ViewItemBinding
 import com.iammert.library.ui.multisearchviewlib.databinding.ViewMultiSearchContainerBinding
@@ -264,25 +265,27 @@ class MultiSearchContainerView @JvmOverloads constructor(
 
         val currentChildCount = tabs.size
 
-        when {
-            currentChildCount == 1 -> {
-                binding.viewIndicator.visibility = View.INVISIBLE
-                selectedTab = null
-            }
-            removeIndex == currentChildCount - 1 -> {
-                val newSelectedViewBinding = tabs[removeIndex - 1]
-                selectTab(newSelectedViewBinding)
-                selectedTab = newSelectedViewBinding
-            }
-            else -> {
-                val newSelectedViewBinding = tabs[removeIndex + 1]
-                selectTab(newSelectedViewBinding)
-                selectedTab = newSelectedViewBinding
-            }
+        val newSelectedTab = when {
+            currentChildCount == 1 -> null
+            removeIndex == currentChildCount - 1 -> tabs[removeIndex - 1]
+            else -> tabs[removeIndex + 1]
         }
 
         tabs.removeAt(removeIndex)
         binding.layoutItemContainer.removeView(viewItemBinding.root)
+        selectedTab = newSelectedTab
+
+        if (newSelectedTab == null) {
+            binding.viewIndicator.visibility = View.INVISIBLE
+        } else {
+            // The remaining tabs move once the container is laid out again, so the
+            // indicator target is only known after the next layout pass.
+            binding.layoutItemContainer.doOnNextLayout {
+                if (selectedTab === newSelectedTab) {
+                    selectTab(newSelectedTab)
+                }
+            }
+        }
 
         multiSearchViewListener?.onSearchItemRemoved(removeIndex)
     }
