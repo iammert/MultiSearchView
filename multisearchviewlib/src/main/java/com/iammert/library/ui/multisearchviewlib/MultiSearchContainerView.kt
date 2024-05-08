@@ -205,25 +205,9 @@ class MultiSearchContainerView @JvmOverloads constructor(
 
         viewItem.root.layoutParams = LinearLayout.LayoutParams(searchViewWidth.toInt(), WRAP_CONTENT)
 
-        viewItem.root.setOnClickListener {
-            if (viewItem != selectedTab) {
-                multiSearchViewListener?.onItemSelected(
-                    tabs.indexOf(viewItem),
-                    viewItem.editTextSearch.text.toString()
-                )
-                changeSelectedTab(viewItem)
-            }
-        }
-
-        viewItem.editTextSearch.setOnClickListener {
-            if (viewItem != selectedTab) {
-                multiSearchViewListener?.onItemSelected(
-                    tabs.indexOf(viewItem),
-                    viewItem.editTextSearch.text.toString()
-                )
-                changeSelectedTab(viewItem)
-            }
-        }
+        val onTabClicked = OnClickListener { onTabClicked(viewItem) }
+        viewItem.root.setOnClickListener(onTabClicked)
+        viewItem.editTextSearch.setOnClickListener(onTabClicked)
 
         viewItem.editTextSearch.addTextChangedListener(object : SimpleTextWatcher() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -242,6 +226,24 @@ class MultiSearchContainerView @JvmOverloads constructor(
         viewItem.editTextSearch.onSearchAction(filter = isInSearchMode) { completeSearch() }
 
         return viewItem
+    }
+
+    private fun onTabClicked(viewItem: ViewItemBinding) {
+        if (viewItem === selectedTab) {
+            return
+        }
+
+        // Finish the search that is being typed first, otherwise it stays editable
+        // and the view never leaves search mode.
+        if (isInSearchMode) {
+            completeSearch()
+        }
+
+        multiSearchViewListener?.onItemSelected(
+            tabs.indexOf(viewItem),
+            viewItem.editTextSearch.text.toString()
+        )
+        changeSelectedTab(viewItem)
     }
 
     private fun widthWithoutCurrentSearch(): Int {
