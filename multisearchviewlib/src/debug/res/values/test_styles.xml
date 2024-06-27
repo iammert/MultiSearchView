@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Styles used by the unit tests. Debug only, not part of the release AAR. -->
+<resources>
+
+    <style name="MsvTest" />
+
+    <style name="MsvTest.TextColorOnly">
+        <item name="android:textColor">#FF0000</item>
+    </style>
+
+    <style name="MsvTest.Full">
+        <item name="android:hint">Find</item>
+        <item name="android:textColorLink">#00FF00</item>
+        <item name="android:paddingLeft">5px</item>
+        <item name="android:maxLength">4</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
+</resources>
