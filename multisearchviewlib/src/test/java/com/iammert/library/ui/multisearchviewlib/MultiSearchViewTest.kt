@@ -86,6 +86,13 @@ class MultiSearchViewTest {
     }
 
     @Test
+    fun whitespaceDoesNotCountTowardsMinimumLength() {
+        search("  a  ")
+
+        assertEquals(0, tabCount())
+    }
+
+    @Test
     fun removeIconRemovesSelectedTab() {
         search("apple")
         search("banana")
