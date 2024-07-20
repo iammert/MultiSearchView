@@ -2,5 +2,7 @@
 <resources>
     <declare-styleable name="MultiSearchView">
         <attr name="searchTextStyle" format="reference"/>
+        <!-- Queries shorter than this, ignoring surrounding whitespace, are discarded. Defaults to 3. -->
+        <attr name="minSearchLength" format="integer"/>
     </declare-styleable>
 </resources>

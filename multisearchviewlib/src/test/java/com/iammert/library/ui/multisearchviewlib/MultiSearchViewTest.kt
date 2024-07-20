@@ -93,6 +93,15 @@ class MultiSearchViewTest {
     }
 
     @Test
+    fun minSearchLengthCanBeChanged() {
+        searchView.minSearchLength = 1
+        search("a")
+
+        assertEquals(1, tabCount())
+        assertTrue(events.contains("complete 0 a"))
+    }
+
+    @Test
     fun removeIconRemovesSelectedTab() {
         search("apple")
         search("banana")

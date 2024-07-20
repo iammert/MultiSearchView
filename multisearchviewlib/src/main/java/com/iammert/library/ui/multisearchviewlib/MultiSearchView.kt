@@ -27,6 +27,10 @@ class MultiSearchView @JvmOverloads constructor(context: Context, attrs: Attribu
         try {
             binding.searchViewContainer.searchTextStyle =
                 typedArray.getResourceId(R.styleable.MultiSearchView_searchTextStyle, 0)
+            binding.searchViewContainer.minSearchLength = typedArray.getInt(
+                R.styleable.MultiSearchView_minSearchLength,
+                MultiSearchContainerView.DEFAULT_MIN_SEARCH_LENGTH
+            )
         } finally {
             typedArray.recycle()
         }
@@ -39,6 +43,16 @@ class MultiSearchView @JvmOverloads constructor(context: Context, attrs: Attribu
             }
         }
     }
+
+    /**
+     * Minimum length of a query, ignoring surrounding whitespace. Shorter queries are discarded
+     * when the search completes. Set it to 0 to keep every query.
+     */
+    var minSearchLength: Int
+        get() = binding.searchViewContainer.minSearchLength
+        set(value) {
+            binding.searchViewContainer.minSearchLength = value
+        }
 
     fun setSearchViewListener(multiSearchViewListener: MultiSearchViewListener) {
         binding.searchViewContainer.setSearchViewListener(multiSearchViewListener)

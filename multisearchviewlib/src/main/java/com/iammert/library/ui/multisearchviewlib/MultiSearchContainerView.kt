@@ -27,6 +27,12 @@ class MultiSearchContainerView @JvmOverloads constructor(
 
     var searchTextStyle = 0
 
+    var minSearchLength = DEFAULT_MIN_SEARCH_LENGTH
+        set(value) {
+            require(value >= 0) { "minSearchLength must not be negative" }
+            field = value
+        }
+
     private var searchViewWidth: Float = 0f
 
     private var viewWidth: Float = 0f
@@ -173,7 +179,7 @@ class MultiSearchContainerView @JvmOverloads constructor(
         KeyboardHelper.hideKeyboard(this)
 
         selectedTab?.let {
-            if (it.editTextSearch.text.trim().length < 3) {
+            if (it.editTextSearch.text.trim().length < minSearchLength) {
                 removeTab(it)
                 return
             }
@@ -317,6 +323,7 @@ class MultiSearchContainerView @JvmOverloads constructor(
 
     companion object {
 
+        internal const val DEFAULT_MIN_SEARCH_LENGTH = 3
         private const val WIDTH_RATIO = 0.85f
         private const val DEFAULT_ANIM_DURATION = 500L
     }
