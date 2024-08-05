@@ -2,7 +2,9 @@ package com.iammert.library.ui.multisearchviewlib
 
 import android.app.Activity
 import android.os.Looper
+import android.view.KeyEvent
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.LinearLayout
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -75,6 +77,29 @@ class MultiSearchViewTest {
         editText(1).setText("kiwi")
 
         assertEquals("changed 1 kiwi", events.last())
+    }
+
+    @Test
+    fun imeSearchActionCompletesSearch() {
+        clickSearchIcon()
+        editText(0).setText("apple")
+        editText(0).onEditorAction(EditorInfo.IME_ACTION_SEARCH)
+        idle()
+
+        assertEquals("complete 0 apple", events.last())
+        assertFalse(container().isInSearchMode())
+    }
+
+    @Test
+    fun hardwareEnterKeyCompletesSearchOnce() {
+        clickSearchIcon()
+        editText(0).setText("apple")
+        editText(0).dispatchKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER))
+        editText(0).dispatchKeyEvent(KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_ENTER))
+        idle()
+
+        assertEquals(1, events.count { it == "complete 0 apple" })
+        assertFalse(container().isInSearchMode())
     }
 
     @Test

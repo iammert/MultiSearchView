@@ -5,21 +5,36 @@ import android.content.res.TypedArray
 import android.graphics.Typeface
 import android.text.InputFilter
 import android.util.TypedValue
+import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.TextView
 import androidx.annotation.StyleRes
 
-fun EditText.onSearchAction(filter: Boolean = true, onSearchClicked: () -> Unit) {
-    setOnEditorActionListener(TextView.OnEditorActionListener { _, actionId, _ ->
-        if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-            if (filter) {
-                onSearchClicked.invoke()
+/**
+ * Calls [onSearchClicked] when the IME search action is pressed or, for hardware keyboards and
+ * IMEs that send no action, when Enter is pressed.
+ */
+fun EditText.onSearchAction(onSearchClicked: () -> Unit) {
+    setOnEditorActionListener { _, actionId, event ->
+        val isSearchAction = actionId == EditorInfo.IME_ACTION_SEARCH
+        val isEnterKey = actionId == EditorInfo.IME_NULL &&
+            event?.keyCode == KeyEvent.KEYCODE_ENTER
+        when {
+            isSearchAction -> {
+                onSearchClicked()
+                true
             }
-            return@OnEditorActionListener true
+            // Consume both events of the Enter key but only act once.
+            isEnterKey -> {
+                if (event?.action == KeyEvent.ACTION_DOWN) {
+                    onSearchClicked()
+                }
+                true
+            }
+            else -> false
         }
-        false
-    })
+    }
 }
 
 /**

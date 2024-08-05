@@ -229,7 +229,11 @@ class MultiSearchContainerView @JvmOverloads constructor(
             selectedTab?.let { removeTab(it) }
         }
 
-        viewItem.editTextSearch.onSearchAction(filter = isInSearchMode) { completeSearch() }
+        viewItem.editTextSearch.onSearchAction {
+            if (viewItem === selectedTab) {
+                completeSearch()
+            }
+        }
 
         return viewItem
     }
