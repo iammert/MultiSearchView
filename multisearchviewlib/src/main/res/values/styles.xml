@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="EditTextStyle" parent="TextAppearance.AppCompat">
+    <style name="MsvEditTextStyle" parent="TextAppearance.AppCompat">
         <item name="colorControlNormal">#565656</item>
         <item name="colorControlActivated">#000</item>
         <item name="android:textSize">18sp</item>

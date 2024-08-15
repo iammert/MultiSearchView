@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.RelativeLayout
-import com.iammert.library.ui.multisearchviewlib.databinding.ViewMultiSearchBinding
+import com.iammert.library.ui.multisearchviewlib.databinding.MsvViewMultiSearchBinding
 
 class MultiSearchView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
     RelativeLayout(context, attrs, defStyleAttr) {
@@ -20,7 +20,7 @@ class MultiSearchView @JvmOverloads constructor(context: Context, attrs: Attribu
         fun onItemSelected(index: Int, s: CharSequence)
     }
 
-    private val binding = ViewMultiSearchBinding.inflate(LayoutInflater.from(context), this, true)
+    private val binding = MsvViewMultiSearchBinding.inflate(LayoutInflater.from(context), this, true)
 
     init {
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.MultiSearchView, defStyleAttr, 0)

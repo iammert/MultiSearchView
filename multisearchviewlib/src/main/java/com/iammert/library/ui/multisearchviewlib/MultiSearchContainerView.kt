@@ -12,8 +12,8 @@ import android.widget.LinearLayout
 import androidx.core.view.doOnLayout
 import androidx.core.view.doOnNextLayout
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
-import com.iammert.library.ui.multisearchviewlib.databinding.ViewItemBinding
-import com.iammert.library.ui.multisearchviewlib.databinding.ViewMultiSearchContainerBinding
+import com.iammert.library.ui.multisearchviewlib.databinding.MsvViewItemBinding
+import com.iammert.library.ui.multisearchviewlib.databinding.MsvViewMultiSearchContainerBinding
 import com.iammert.library.ui.multisearchviewlib.extensions.*
 import com.iammert.library.ui.multisearchviewlib.helper.KeyboardHelper
 import com.iammert.library.ui.multisearchviewlib.helper.SimpleTextWatcher
@@ -37,17 +37,17 @@ class MultiSearchContainerView @JvmOverloads constructor(
 
     private var viewWidth: Float = 0f
 
-    private val binding = ViewMultiSearchContainerBinding.inflate(LayoutInflater.from(context), this, true)
+    private val binding = MsvViewMultiSearchContainerBinding.inflate(LayoutInflater.from(context), this, true)
 
     private val sizeRemoveIcon = context.resources.getDimensionPixelSize(R.dimen.msv_size_remove_icon)
 
-    private val defaultPadding = context.resources.getDimensionPixelSize(R.dimen.padding_16dp)
+    private val defaultPadding = context.resources.getDimensionPixelSize(R.dimen.msv_padding_default)
 
     private var isInSearchMode = false
 
-    private var selectedTab: ViewItemBinding? = null
+    private var selectedTab: MsvViewItemBinding? = null
 
-    private val tabs = mutableListOf<ViewItemBinding>()
+    private val tabs = mutableListOf<MsvViewItemBinding>()
 
     private var multiSearchViewListener: MultiSearchView.MultiSearchViewListener? = null
 
@@ -204,8 +204,8 @@ class MultiSearchContainerView @JvmOverloads constructor(
 
     fun isInSearchMode() = isInSearchMode
 
-    private fun createNewSearchView(): ViewItemBinding {
-        val viewItem = ViewItemBinding.inflate(LayoutInflater.from(context), binding.layoutItemContainer, false)
+    private fun createNewSearchView(): MsvViewItemBinding {
+        val viewItem = MsvViewItemBinding.inflate(LayoutInflater.from(context), binding.layoutItemContainer, false)
 
         viewItem.editTextSearch.setStyle(context, searchTextStyle)
 
@@ -238,7 +238,7 @@ class MultiSearchContainerView @JvmOverloads constructor(
         return viewItem
     }
 
-    private fun onTabClicked(viewItem: ViewItemBinding) {
+    private fun onTabClicked(viewItem: MsvViewItemBinding) {
         if (viewItem === selectedTab) {
             return
         }
@@ -269,7 +269,7 @@ class MultiSearchContainerView @JvmOverloads constructor(
         }
     }
 
-    private fun removeTab(viewItemBinding: ViewItemBinding) {
+    private fun removeTab(viewItemBinding: MsvViewItemBinding) {
         val removeIndex = tabs.indexOf(viewItemBinding)
         if (removeIndex == -1) {
             return
@@ -302,7 +302,7 @@ class MultiSearchContainerView @JvmOverloads constructor(
         multiSearchViewListener?.onSearchItemRemoved(removeIndex)
     }
 
-    private fun selectTab(viewItemBinding: ViewItemBinding) {
+    private fun selectTab(viewItemBinding: MsvViewItemBinding) {
         val indicatorCurrentXPosition = binding.viewIndicator.x
         val indicatorTargetXPosition = viewItemBinding.root.x
         indicatorAnimator.setFloatValues(indicatorCurrentXPosition, indicatorTargetXPosition)
@@ -313,13 +313,13 @@ class MultiSearchContainerView @JvmOverloads constructor(
         viewItemBinding.editTextSearch.alpha = 1f
     }
 
-    private fun deselectTab(viewItemBinding: ViewItemBinding) {
+    private fun deselectTab(viewItemBinding: MsvViewItemBinding) {
         binding.viewIndicator.visibility = View.INVISIBLE
         viewItemBinding.imageViewRemove.visibility = View.GONE
         viewItemBinding.editTextSearch.alpha = 0.5f
     }
 
-    private fun changeSelectedTab(newSelectedTabItem: ViewItemBinding) {
+    private fun changeSelectedTab(newSelectedTabItem: MsvViewItemBinding) {
         selectedTab?.let { deselectTab(it) }
         selectedTab = newSelectedTabItem
         selectedTab?.let { selectTab(it) }
