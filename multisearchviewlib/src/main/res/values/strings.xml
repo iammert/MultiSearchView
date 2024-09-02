@@ -1,0 +1,5 @@
+<resources>
+    <string name="msv_hint">Search</string>
+    <string name="msv_action_search">Search</string>
+    <string name="msv_action_remove">Remove search</string>
+</resources>

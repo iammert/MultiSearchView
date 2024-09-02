@@ -1,0 +1,5 @@
+<resources>
+    <string name="msv_hint">Ara</string>
+    <string name="msv_action_search">Ara</string>
+    <string name="msv_action_remove">Aramayı kaldır</string>
+</resources>

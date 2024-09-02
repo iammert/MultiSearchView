@@ -22,7 +22,7 @@
         android:paddingRight="8dp"
         android:paddingBottom="12dp"
         android:background="@null"
-        android:hint="Search"
+        android:hint="@string/msv_hint"
         android:imeOptions="actionSearch"
         android:theme="@style/MsvEditTextStyle"
         android:maxLength="15"
@@ -32,6 +32,7 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imageViewRemove"
+        android:contentDescription="@string/msv_action_remove"
         android:layout_width="@dimen/msv_size_remove_icon"
         android:clickable="true"
         android:background="?attr/selectableItemBackgroundBorderless"
@@ -39,6 +40,5 @@
         android:padding="4dp"
         app:srcCompat="@drawable/msv_ic_clear"
         android:visibility="gone"/>
-
 
 </LinearLayout>
