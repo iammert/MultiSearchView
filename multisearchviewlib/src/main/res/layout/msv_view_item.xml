@@ -27,8 +27,7 @@
         android:theme="@style/MsvEditTextStyle"
         android:maxLength="15"
         android:textSize="18sp"
-        android:inputType="textCapSentences"
-        android:textColorHint="#80999999"/>
+        android:inputType="textCapSentences"/>
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imageViewRemove"

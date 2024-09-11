@@ -2,8 +2,6 @@
 <resources>
 
     <style name="MsvEditTextStyle" parent="TextAppearance.AppCompat">
-        <item name="colorControlNormal">#565656</item>
-        <item name="colorControlActivated">#000</item>
         <item name="android:textSize">18sp</item>
     </style>
 </resources>
