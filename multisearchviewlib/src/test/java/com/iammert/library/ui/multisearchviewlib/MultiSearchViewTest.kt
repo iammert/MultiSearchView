@@ -1,12 +1,16 @@
 package com.iammert.library.ui.multisearchviewlib
 
 import android.app.Activity
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Looper
 import android.view.KeyEvent
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.LinearLayout
+import androidx.core.widget.ImageViewCompat
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -148,6 +152,17 @@ class MultiSearchViewTest {
         idle()
 
         assertEquals(1, events.count { it == "selected 0 apple" })
+    }
+
+    @Test
+    fun iconTintIsAppliedToNewTabs() {
+        val tint = ColorStateList.valueOf(Color.BLUE)
+        searchView.iconTint = tint
+        search("apple")
+
+        val removeIcon = tab(0).findViewById<ImageView>(R.id.imageViewRemove)
+        assertEquals(tint, ImageViewCompat.getImageTintList(removeIcon))
+        assertEquals(tint, ImageViewCompat.getImageTintList(searchView.findViewById(R.id.imageViewSearch)))
     }
 
     private fun search(query: String) {

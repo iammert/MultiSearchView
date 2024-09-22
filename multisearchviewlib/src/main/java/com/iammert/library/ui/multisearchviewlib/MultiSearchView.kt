@@ -1,9 +1,13 @@
 package com.iammert.library.ui.multisearchviewlib
 
 import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.RelativeLayout
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.widget.ImageViewCompat
 import com.iammert.library.ui.multisearchviewlib.databinding.MsvViewMultiSearchBinding
 
 class MultiSearchView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
@@ -31,6 +35,12 @@ class MultiSearchView @JvmOverloads constructor(context: Context, attrs: Attribu
                 R.styleable.MultiSearchView_minSearchLength,
                 MultiSearchContainerView.DEFAULT_MIN_SEARCH_LENGTH
             )
+            typedArray.getDrawable(R.styleable.MultiSearchView_searchIcon)?.let {
+                binding.imageViewSearch.setImageDrawable(it)
+            }
+            binding.searchViewContainer.removeIcon = typedArray.getDrawable(R.styleable.MultiSearchView_removeIcon)
+            typedArray.getColorStateList(R.styleable.MultiSearchView_iconTint)?.let { iconTint = it }
+            typedArray.getColorStateList(R.styleable.MultiSearchView_indicatorColor)?.let { indicatorColor = it }
         } finally {
             typedArray.recycle()
         }
@@ -53,6 +63,32 @@ class MultiSearchView @JvmOverloads constructor(context: Context, attrs: Attribu
         set(value) {
             binding.searchViewContainer.minSearchLength = value
         }
+
+    /** Tint applied to the search and remove icons. `null` keeps the icons' own colors. */
+    var iconTint: ColorStateList?
+        get() = binding.searchViewContainer.iconTint
+        set(value) {
+            ImageViewCompat.setImageTintList(binding.imageViewSearch, value)
+            binding.searchViewContainer.iconTint = value
+        }
+
+    /** Color of the line under the selected tab. */
+    var indicatorColor: ColorStateList?
+        get() = binding.searchViewContainer.indicatorColor
+        set(value) {
+            binding.searchViewContainer.indicatorColor = value
+        }
+
+    /** Sets the icon of the button that starts and completes a search. */
+    fun setSearchIcon(drawable: Drawable?) {
+        binding.imageViewSearch.setImageDrawable(drawable)
+    }
+
+    /** Sets the icon used to remove the selected tab. `null` restores the default icon. */
+    fun setRemoveIcon(drawable: Drawable?) {
+        binding.searchViewContainer.removeIcon =
+            drawable ?: AppCompatResources.getDrawable(context, R.drawable.msv_ic_clear)
+    }
 
     fun setSearchViewListener(multiSearchViewListener: MultiSearchViewListener) {
         binding.searchViewContainer.setSearchViewListener(multiSearchViewListener)

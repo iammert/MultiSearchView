@@ -4,5 +4,13 @@
         <attr name="searchTextStyle" format="reference"/>
         <!-- Queries shorter than this, ignoring surrounding whitespace, are discarded. Defaults to 3. -->
         <attr name="minSearchLength" format="integer"/>
+        <!-- Icon of the button that starts and completes a search. -->
+        <attr name="searchIcon" format="reference"/>
+        <!-- Icon shown on the selected tab to remove it. -->
+        <attr name="removeIcon" format="reference"/>
+        <!-- Tint for the search and remove icons. Defaults to colorControlNormal. -->
+        <attr name="iconTint" format="color"/>
+        <!-- Color of the line under the selected tab. Defaults to colorControlNormal. -->
+        <attr name="indicatorColor" format="color"/>
     </declare-styleable>
 </resources>

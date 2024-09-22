@@ -3,13 +3,17 @@ package com.iammert.library.ui.multisearchviewlib
 import android.animation.LayoutTransition
 import android.animation.ValueAnimator
 import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.FrameLayout
 import android.widget.LinearLayout
+import androidx.core.view.ViewCompat
 import androidx.core.view.doOnLayout
+import androidx.core.widget.ImageViewCompat
 import androidx.core.view.doOnNextLayout
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import com.iammert.library.ui.multisearchviewlib.databinding.MsvViewItemBinding
@@ -26,6 +30,24 @@ class MultiSearchContainerView @JvmOverloads constructor(
 ) : FrameLayout(context, attrs, defStyleAttr) {
 
     var searchTextStyle = 0
+
+    var removeIcon: Drawable? = null
+        set(value) {
+            field = value
+            tabs.forEach { applyRemoveIcon(it) }
+        }
+
+    var iconTint: ColorStateList? = null
+        set(value) {
+            field = value
+            tabs.forEach { applyRemoveIcon(it) }
+        }
+
+    var indicatorColor: ColorStateList? = null
+        set(value) {
+            field = value
+            ViewCompat.setBackgroundTintList(binding.viewIndicator, value)
+        }
 
     var minSearchLength = DEFAULT_MIN_SEARCH_LENGTH
         set(value) {
@@ -208,6 +230,7 @@ class MultiSearchContainerView @JvmOverloads constructor(
         val viewItem = MsvViewItemBinding.inflate(LayoutInflater.from(context), binding.layoutItemContainer, false)
 
         viewItem.editTextSearch.setStyle(context, searchTextStyle)
+        applyRemoveIcon(viewItem)
 
         viewItem.root.layoutParams = LinearLayout.LayoutParams(searchViewWidth.toInt(), WRAP_CONTENT)
 
@@ -236,6 +259,11 @@ class MultiSearchContainerView @JvmOverloads constructor(
         }
 
         return viewItem
+    }
+
+    private fun applyRemoveIcon(viewItem: MsvViewItemBinding) {
+        removeIcon?.let { viewItem.imageViewRemove.setImageDrawable(it.constantState?.newDrawable(resources) ?: it) }
+        ImageViewCompat.setImageTintList(viewItem.imageViewRemove, iconTint)
     }
 
     private fun onTabClicked(viewItem: MsvViewItemBinding) {
