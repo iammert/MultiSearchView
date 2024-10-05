@@ -3,14 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingRight="16dp">
+    android:paddingEnd="16dp">
 
     <com.iammert.library.ui.multisearchviewlib.MultiSearchContainerView
         android:id="@+id/searchViewContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_toLeftOf="@+id/imageViewSearch"/>
+        android:layout_toStartOf="@+id/imageViewSearch"/>
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imageViewSearch"
@@ -22,6 +22,6 @@
         app:srcCompat="@drawable/msv_ic_search"
         android:padding="16dp"
         android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"/>
+        android:layout_alignParentEnd="true"/>
 
 </RelativeLayout>

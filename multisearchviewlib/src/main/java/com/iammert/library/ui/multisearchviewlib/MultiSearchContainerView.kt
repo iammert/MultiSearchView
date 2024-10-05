@@ -173,7 +173,9 @@ class MultiSearchContainerView @JvmOverloads constructor(
 
             when {
                 widthWithoutCurrentSearch == 0 -> {
-                    firstSearchTranslateAnimator.setFloatValues(viewWidth, 0f)
+                    // Slide in from the end edge, which is the left edge in RTL layouts.
+                    val startTranslation = if (layoutDirection == LAYOUT_DIRECTION_RTL) -viewWidth else viewWidth
+                    firstSearchTranslateAnimator.setFloatValues(startTranslation, 0f)
                     firstSearchTranslateAnimator.start()
                 }
                 widthWithoutCurrentSearch < viewWidth -> {

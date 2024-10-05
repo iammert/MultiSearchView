@@ -5,11 +5,10 @@
     android:layout_height="wrap_content">
 
     <HorizontalScrollView
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/horizontalScrollView"
-        android:paddingLeft="32dp"
+        android:paddingStart="32dp"
         android:clipToPadding="false"
         android:scrollbars="none">
 
