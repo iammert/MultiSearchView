@@ -24,9 +24,19 @@ class MultiSearchView @JvmOverloads constructor(context: Context, attrs: Attribu
         fun onItemSelected(index: Int, s: CharSequence)
     }
 
-    private val binding = MsvViewMultiSearchBinding.inflate(LayoutInflater.from(context), this, true)
+    private val binding = MsvViewMultiSearchBinding.inflate(LayoutInflater.from(context), this)
 
     init {
+        // The layout is merged into this view, so the default end padding is set here.
+        if (paddingEnd == 0) {
+            setPaddingRelative(
+                paddingStart,
+                paddingTop,
+                resources.getDimensionPixelSize(R.dimen.msv_padding_default),
+                paddingBottom
+            )
+        }
+
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.MultiSearchView, defStyleAttr, 0)
         try {
             binding.searchViewContainer.searchTextStyle =

@@ -59,7 +59,7 @@ class MultiSearchContainerView @JvmOverloads constructor(
 
     private var viewWidth: Float = 0f
 
-    private val binding = MsvViewMultiSearchContainerBinding.inflate(LayoutInflater.from(context), this, true)
+    private val binding = MsvViewMultiSearchContainerBinding.inflate(LayoutInflater.from(context), this)
 
     private val sizeRemoveIcon = context.resources.getDimensionPixelSize(R.dimen.msv_size_remove_icon)
 
