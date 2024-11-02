@@ -165,6 +165,15 @@ class MultiSearchViewTest {
         assertEquals(tint, ImageViewCompat.getImageTintList(searchView.findViewById(R.id.imageViewSearch)))
     }
 
+    @Test
+    fun searchWorksWithoutAnimations() {
+        searchView.animationDuration = 0
+        search("apple")
+
+        assertEquals(1, tabCount())
+        assertEquals("complete 0 apple", events.last())
+    }
+
     private fun search(query: String) {
         clickSearchIcon()
         editText(tabCount() - 1).setText(query)

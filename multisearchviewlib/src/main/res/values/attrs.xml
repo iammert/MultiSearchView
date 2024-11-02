@@ -12,5 +12,7 @@
         <attr name="iconTint" format="color"/>
         <!-- Color of the line under the selected tab. Defaults to colorControlNormal. -->
         <attr name="indicatorColor" format="color"/>
+        <!-- Duration of the search animations in milliseconds. Defaults to 500. -->
+        <attr name="animationDuration" format="integer"/>
     </declare-styleable>
 </resources>

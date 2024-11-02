@@ -45,6 +45,10 @@ class MultiSearchView @JvmOverloads constructor(context: Context, attrs: Attribu
                 R.styleable.MultiSearchView_minSearchLength,
                 MultiSearchContainerView.DEFAULT_MIN_SEARCH_LENGTH
             )
+            binding.searchViewContainer.animationDuration = typedArray.getInt(
+                R.styleable.MultiSearchView_animationDuration,
+                MultiSearchContainerView.DEFAULT_ANIM_DURATION.toInt()
+            ).toLong()
             typedArray.getDrawable(R.styleable.MultiSearchView_searchIcon)?.let {
                 binding.imageViewSearch.setImageDrawable(it)
             }
@@ -72,6 +76,13 @@ class MultiSearchView @JvmOverloads constructor(context: Context, attrs: Attribu
         get() = binding.searchViewContainer.minSearchLength
         set(value) {
             binding.searchViewContainer.minSearchLength = value
+        }
+
+    /** Duration of the search animations in milliseconds. */
+    var animationDuration: Long
+        get() = binding.searchViewContainer.animationDuration
+        set(value) {
+            binding.searchViewContainer.animationDuration = value
         }
 
     /** Tint applied to the search and remove icons. `null` keeps the icons' own colors. */

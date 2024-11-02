@@ -49,6 +49,16 @@ class MultiSearchContainerView @JvmOverloads constructor(
             ViewCompat.setBackgroundTintList(binding.viewIndicator, value)
         }
 
+    var animationDuration = DEFAULT_ANIM_DURATION
+        set(value) {
+            require(value >= 0) { "animationDuration must not be negative" }
+            field = value
+            searchEnterScrollAnimation.duration = value
+            searchCompleteCollapseAnimator.duration = value
+            firstSearchTranslateAnimator.duration = value
+            indicatorAnimator.duration = value
+        }
+
     var minSearchLength = DEFAULT_MIN_SEARCH_LENGTH
         set(value) {
             require(value >= 0) { "minSearchLength must not be negative" }
@@ -359,6 +369,6 @@ class MultiSearchContainerView @JvmOverloads constructor(
 
         internal const val DEFAULT_MIN_SEARCH_LENGTH = 3
         private const val WIDTH_RATIO = 0.85f
-        private const val DEFAULT_ANIM_DURATION = 500L
+        internal const val DEFAULT_ANIM_DURATION = 500L
     }
 }
