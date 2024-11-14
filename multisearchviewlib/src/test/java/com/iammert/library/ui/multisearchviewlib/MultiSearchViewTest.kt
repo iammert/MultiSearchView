@@ -174,6 +174,20 @@ class MultiSearchViewTest {
         assertEquals("complete 0 apple", events.last())
     }
 
+    @Test
+    fun searchCanBeStartedAndCompletedFromCode() {
+        searchView.search()
+        idle()
+        assertTrue(searchView.isInSearchMode)
+
+        editText(0).setText("apple")
+        searchView.completeSearch()
+        idle()
+
+        assertFalse(searchView.isInSearchMode)
+        assertEquals("complete 0 apple", events.last())
+    }
+
     private fun search(query: String) {
         clickSearchIcon()
         editText(tabCount() - 1).setText(query)

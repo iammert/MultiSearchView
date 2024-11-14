@@ -60,12 +60,32 @@ class MultiSearchView @JvmOverloads constructor(context: Context, attrs: Attribu
         }
 
         binding.imageViewSearch.setOnClickListener {
-            if (binding.searchViewContainer.isInSearchMode().not()) {
-                binding.searchViewContainer.search()
+            if (isInSearchMode) {
+                completeSearch()
             } else {
-                binding.searchViewContainer.completeSearch()
+                search()
             }
         }
+    }
+
+    /** `true` while a new query is being typed. */
+    val isInSearchMode: Boolean
+        get() = binding.searchViewContainer.isInSearchMode()
+
+    /**
+     * Adds a new search tab, focuses it and opens the keyboard, like tapping the search icon.
+     * Does nothing when a search is already in progress.
+     */
+    fun search() {
+        binding.searchViewContainer.search()
+    }
+
+    /**
+     * Completes the search that is being typed. Queries shorter than [minSearchLength] are
+     * discarded. Does nothing when no search is in progress.
+     */
+    fun completeSearch() {
+        binding.searchViewContainer.completeSearch()
     }
 
     /**
