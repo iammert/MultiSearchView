@@ -188,6 +188,21 @@ class MultiSearchViewTest {
         assertEquals("complete 0 apple", events.last())
     }
 
+    @Test
+    fun queriesAndSelectionAreExposed() {
+        assertEquals(-1, searchView.selectedIndex)
+
+        search("apple")
+        search("banana")
+        assertEquals(listOf("apple", "banana"), searchView.queries)
+        assertEquals(1, searchView.selectedIndex)
+
+        searchView.selectSearch(0)
+        idle()
+        assertEquals(0, searchView.selectedIndex)
+        assertFalse(events.any { it.startsWith("selected") })
+    }
+
     private fun search(query: String) {
         clickSearchIcon()
         editText(tabCount() - 1).setText(query)

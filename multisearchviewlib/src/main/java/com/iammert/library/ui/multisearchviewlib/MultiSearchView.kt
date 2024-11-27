@@ -98,6 +98,24 @@ class MultiSearchView @JvmOverloads constructor(context: Context, attrs: Attribu
             binding.searchViewContainer.minSearchLength = value
         }
 
+    /** Text of every search tab, in display order. */
+    val queries: List<String>
+        get() = binding.searchViewContainer.queries
+
+    /** Index of the selected tab, or -1 when there are no searches. */
+    val selectedIndex: Int
+        get() = binding.searchViewContainer.selectedIndex
+
+    /**
+     * Selects the tab at [index]. A search that is being typed is completed first.
+     * [MultiSearchViewListener.onItemSelected] is not called for programmatic selections.
+     *
+     * @throws IndexOutOfBoundsException when there is no tab at [index]
+     */
+    fun selectSearch(index: Int) {
+        binding.searchViewContainer.select(index)
+    }
+
     /** Duration of the search animations in milliseconds. */
     var animationDuration: Long
         get() = binding.searchViewContainer.animationDuration

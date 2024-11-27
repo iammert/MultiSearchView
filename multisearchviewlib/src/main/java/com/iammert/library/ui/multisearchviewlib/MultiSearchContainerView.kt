@@ -238,6 +238,25 @@ class MultiSearchContainerView @JvmOverloads constructor(
 
     fun isInSearchMode() = isInSearchMode
 
+    val queries: List<String>
+        get() = tabs.map { it.editTextSearch.text.toString() }
+
+    val selectedIndex: Int
+        get() = tabs.indexOf(selectedTab)
+
+    fun select(index: Int) {
+        val tab = tabs.getOrNull(index) ?: throw IndexOutOfBoundsException("No search at index $index")
+        if (tab === selectedTab) {
+            return
+        }
+        if (isInSearchMode) {
+            completeSearch()
+        }
+        if (tab in tabs) {
+            changeSelectedTab(tab)
+        }
+    }
+
     private fun createNewSearchView(): MsvViewItemBinding {
         val viewItem = MsvViewItemBinding.inflate(LayoutInflater.from(context), binding.layoutItemContainer, false)
 
