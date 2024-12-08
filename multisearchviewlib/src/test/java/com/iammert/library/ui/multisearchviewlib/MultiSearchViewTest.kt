@@ -203,6 +203,41 @@ class MultiSearchViewTest {
         assertFalse(events.any { it.startsWith("selected") })
     }
 
+    @Test
+    fun searchesCanBeAddedAndRemovedFromCode() {
+        searchView.addSearch("apple")
+        searchView.addSearch("banana")
+        searchView.addSearch("cherry")
+        idle()
+        assertEquals(listOf("apple", "banana", "cherry"), searchView.queries)
+        assertEquals(2, searchView.selectedIndex)
+        assertFalse(editText(0).isFocusable)
+
+        searchView.removeSearch(0)
+        idle()
+        assertEquals(listOf("banana", "cherry"), searchView.queries)
+        assertEquals(1, searchView.selectedIndex)
+
+        searchView.clearSearches()
+        idle()
+        assertEquals(emptyList<String>(), searchView.queries)
+        assertEquals(-1, searchView.selectedIndex)
+        assertTrue(events.isEmpty())
+    }
+
+    @Test
+    fun removingTypedSearchLeavesSearchMode() {
+        search("apple")
+        clickSearchIcon()
+
+        searchView.removeSearch(1)
+        idle()
+
+        assertFalse(searchView.isInSearchMode)
+        assertEquals(listOf("apple"), searchView.queries)
+        assertEquals(0, searchView.selectedIndex)
+    }
+
     private fun search(query: String) {
         clickSearchIcon()
         editText(tabCount() - 1).setText(query)

@@ -219,11 +219,7 @@ class MultiSearchContainerView @JvmOverloads constructor(
             }
         }
 
-        selectedTab?.let {
-            it.editTextSearch.isFocusable = false
-            it.editTextSearch.isFocusableInTouchMode = false
-            it.editTextSearch.clearFocus()
-        }
+        selectedTab?.let { lockTab(it) }
 
         selectedTab?.let {
             val startWidthValue = it.root.measuredWidth
@@ -257,6 +253,52 @@ class MultiSearchContainerView @JvmOverloads constructor(
         }
     }
 
+    fun addSearch(query: CharSequence) {
+        if (isInSearchMode) {
+            completeSearch()
+        }
+        selectedTab?.let { deselectTab(it) }
+
+        val tab = createNewSearchView()
+        tab.root.layoutParams = LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT)
+        tab.editTextSearch.setText(query)
+        lockTab(tab)
+
+        tabs.add(tab)
+        binding.layoutItemContainer.addView(tab.root)
+        selectedTab = tab
+        binding.layoutItemContainer.doOnNextLayout {
+            if (selectedTab === tab) {
+                selectTab(tab)
+            }
+        }
+    }
+
+    fun removeSearch(index: Int) {
+        val tab = tabs.getOrNull(index) ?: throw IndexOutOfBoundsException("No search at index $index")
+        removeTab(tab, notifyListener = false)
+    }
+
+    fun clearSearches() {
+        cancelAnimations()
+        if (isInSearchMode) {
+            isInSearchMode = false
+            KeyboardHelper.hideKeyboard(this)
+        }
+        tabs.clear()
+        binding.layoutItemContainer.removeAllViews()
+        binding.horizontalScrollView.translationX = 0f
+        binding.viewIndicator.visibility = View.INVISIBLE
+        selectedTab = null
+    }
+
+    /** Makes a completed tab read only. */
+    private fun lockTab(tab: MsvViewItemBinding) {
+        tab.editTextSearch.isFocusable = false
+        tab.editTextSearch.isFocusableInTouchMode = false
+        tab.editTextSearch.clearFocus()
+    }
+
     private fun createNewSearchView(): MsvViewItemBinding {
         val viewItem = MsvViewItemBinding.inflate(LayoutInflater.from(context), binding.layoutItemContainer, false)
 
@@ -279,9 +321,7 @@ class MultiSearchContainerView @JvmOverloads constructor(
             }
         })
 
-        viewItem.imageViewRemove.setOnClickListener {
-            selectedTab?.let { removeTab(it) }
-        }
+        viewItem.imageViewRemove.setOnClickListener { removeTab(viewItem) }
 
         viewItem.editTextSearch.onSearchAction {
             if (viewItem === selectedTab) {
@@ -328,17 +368,22 @@ class MultiSearchContainerView @JvmOverloads constructor(
         }
     }
 
-    private fun removeTab(viewItemBinding: MsvViewItemBinding) {
+    private fun removeTab(viewItemBinding: MsvViewItemBinding, notifyListener: Boolean = true) {
         val removeIndex = tabs.indexOf(viewItemBinding)
         if (removeIndex == -1) {
             return
         }
 
-        val currentChildCount = tabs.size
+        if (viewItemBinding === selectedTab && isInSearchMode) {
+            isInSearchMode = false
+            cancelAnimations()
+            KeyboardHelper.hideKeyboard(this)
+        }
 
         val newSelectedTab = when {
-            currentChildCount == 1 -> null
-            removeIndex == currentChildCount - 1 -> tabs[removeIndex - 1]
+            viewItemBinding !== selectedTab -> selectedTab
+            tabs.size == 1 -> null
+            removeIndex == tabs.size - 1 -> tabs[removeIndex - 1]
             else -> tabs[removeIndex + 1]
         }
 
@@ -358,7 +403,9 @@ class MultiSearchContainerView @JvmOverloads constructor(
             }
         }
 
-        multiSearchViewListener?.onSearchItemRemoved(removeIndex)
+        if (notifyListener) {
+            multiSearchViewListener?.onSearchItemRemoved(removeIndex)
+        }
     }
 
     private fun selectTab(viewItemBinding: MsvViewItemBinding) {

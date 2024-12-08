@@ -116,6 +116,30 @@ class MultiSearchView @JvmOverloads constructor(context: Context, attrs: Attribu
         binding.searchViewContainer.select(index)
     }
 
+    /**
+     * Adds a completed search tab with [query] and selects it, for example to restore filters
+     * from a saved screen state. A search that is being typed is completed first.
+     * No listener methods are called.
+     */
+    fun addSearch(query: CharSequence) {
+        binding.searchViewContainer.addSearch(query)
+    }
+
+    /**
+     * Removes the tab at [index] without calling
+     * [MultiSearchViewListener.onSearchItemRemoved].
+     *
+     * @throws IndexOutOfBoundsException when there is no tab at [index]
+     */
+    fun removeSearch(index: Int) {
+        binding.searchViewContainer.removeSearch(index)
+    }
+
+    /** Removes every tab and leaves search mode. No listener methods are called. */
+    fun clearSearches() {
+        binding.searchViewContainer.clearSearches()
+    }
+
     /** Duration of the search animations in milliseconds. */
     var animationDuration: Long
         get() = binding.searchViewContainer.animationDuration
