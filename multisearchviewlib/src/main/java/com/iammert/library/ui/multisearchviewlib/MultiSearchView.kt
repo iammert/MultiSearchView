@@ -3,7 +3,10 @@ package com.iammert.library.ui.multisearchviewlib
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
+import android.os.Parcel
+import android.os.Parcelable
 import android.util.AttributeSet
+import android.util.SparseArray
 import android.view.LayoutInflater
 import android.widget.RelativeLayout
 import androidx.appcompat.content.res.AppCompatResources
@@ -173,7 +176,69 @@ class MultiSearchView @JvmOverloads constructor(context: Context, attrs: Attribu
             drawable ?: AppCompatResources.getDrawable(context, R.drawable.msv_ic_clear)
     }
 
+    override fun onSaveInstanceState(): Parcelable {
+        val state = SavedState(super.onSaveInstanceState())
+        val queries = queries
+        val selectedIndex = selectedIndex
+        // A search that is still being typed is kept only if it would pass completeSearch().
+        val keptIndices = queries.indices.filter { queries[it].trim().length >= minSearchLength }
+        state.queries = keptIndices.map { queries[it] }
+        state.selectedIndex = keptIndices.indexOf(selectedIndex).takeIf { it != -1 } ?: keptIndices.lastIndex
+        return state
+    }
+
+    override fun onRestoreInstanceState(state: Parcelable?) {
+        if (state !is SavedState) {
+            super.onRestoreInstanceState(state)
+            return
+        }
+        super.onRestoreInstanceState(state.superState)
+        clearSearches()
+        state.queries.forEach { addSearch(it) }
+        if (state.selectedIndex in state.queries.indices) {
+            selectSearch(state.selectedIndex)
+        }
+    }
+
+    // Every tab uses the same view ids, so their own states would overwrite each other.
+    // The tabs are recreated from SavedState instead.
+    override fun dispatchSaveInstanceState(container: SparseArray<Parcelable>) {
+        dispatchFreezeSelfOnly(container)
+    }
+
+    override fun dispatchRestoreInstanceState(container: SparseArray<Parcelable>) {
+        dispatchThawSelfOnly(container)
+    }
+
     fun setSearchViewListener(multiSearchViewListener: MultiSearchViewListener) {
         binding.searchViewContainer.setSearchViewListener(multiSearchViewListener)
+    }
+
+    private class SavedState : BaseSavedState {
+
+        var queries: List<String> = emptyList()
+        var selectedIndex = -1
+
+        constructor(superState: Parcelable?) : super(superState)
+
+        private constructor(parcel: Parcel) : super(parcel) {
+            queries = parcel.createStringArrayList().orEmpty()
+            selectedIndex = parcel.readInt()
+        }
+
+        override fun writeToParcel(out: Parcel, flags: Int) {
+            super.writeToParcel(out, flags)
+            out.writeStringList(queries)
+            out.writeInt(selectedIndex)
+        }
+
+        companion object {
+            @JvmField
+            val CREATOR = object : Parcelable.Creator<SavedState> {
+                override fun createFromParcel(parcel: Parcel) = SavedState(parcel)
+
+                override fun newArray(size: Int) = arrayOfNulls<SavedState>(size)
+            }
+        }
     }
 }

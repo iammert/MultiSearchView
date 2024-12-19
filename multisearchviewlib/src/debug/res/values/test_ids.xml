@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Ids used by the unit tests. Debug only, not part of the release AAR. -->
+<resources>
+    <item name="msv_test_search_view" type="id" />
+</resources>

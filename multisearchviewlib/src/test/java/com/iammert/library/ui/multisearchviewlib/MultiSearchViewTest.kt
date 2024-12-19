@@ -4,6 +4,8 @@ import android.app.Activity
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Looper
+import android.os.Parcelable
+import android.util.SparseArray
 import android.view.KeyEvent
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
@@ -236,6 +238,30 @@ class MultiSearchViewTest {
         assertFalse(searchView.isInSearchMode)
         assertEquals(listOf("apple"), searchView.queries)
         assertEquals(0, searchView.selectedIndex)
+    }
+
+    @Test
+    fun searchesSurviveStateRestore() {
+        searchView.id = R.id.msv_test_search_view
+        search("apple")
+        search("banana")
+        searchView.selectSearch(0)
+        clickSearchIcon()
+        editText(2).setText("x")
+        idle()
+
+        val state = SparseArray<Parcelable>()
+        searchView.saveHierarchyState(state)
+
+        val restored = MultiSearchView(activity)
+        restored.id = R.id.msv_test_search_view
+        activity.setContentView(restored, ViewGroup.LayoutParams(1000, ViewGroup.LayoutParams.WRAP_CONTENT))
+        restored.restoreHierarchyState(state)
+        idle()
+
+        assertEquals(listOf("apple", "banana"), restored.queries)
+        assertEquals(1, restored.selectedIndex)
+        assertFalse(restored.isInSearchMode)
     }
 
     private fun search(query: String) {
