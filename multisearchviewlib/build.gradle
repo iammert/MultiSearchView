@@ -26,6 +26,8 @@ android {
 
     kotlinOptions {
         jvmTarget = '17'
+        // Compile interface default methods as Java default methods.
+        freeCompilerArgs += ['-Xjvm-default=all']
     }
 
     buildFeatures {

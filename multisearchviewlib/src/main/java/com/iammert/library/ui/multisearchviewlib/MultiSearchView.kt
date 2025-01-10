@@ -16,15 +16,23 @@ import com.iammert.library.ui.multisearchviewlib.databinding.MsvViewMultiSearchB
 class MultiSearchView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
     RelativeLayout(context, attrs, defStyleAttr) {
 
+    /**
+     * Receives search events. Every method has an empty default implementation, so only the
+     * events of interest need to be overridden, also from Java.
+     */
     interface MultiSearchViewListener {
 
-        fun onTextChanged(index: Int, s: CharSequence)
+        /** The text of the tab at [index] changed to [s]. */
+        fun onTextChanged(index: Int, s: CharSequence) {}
 
-        fun onSearchComplete(index: Int, s: CharSequence)
+        /** The search at [index] was completed with the query [s]. */
+        fun onSearchComplete(index: Int, s: CharSequence) {}
 
-        fun onSearchItemRemoved(index: Int)
+        /** The tab at [index] was removed by the user or discarded because it was too short. */
+        fun onSearchItemRemoved(index: Int) {}
 
-        fun onItemSelected(index: Int, s: CharSequence)
+        /** The user selected the tab at [index] with the query [s]. */
+        fun onItemSelected(index: Int, s: CharSequence) {}
     }
 
     private val binding = MsvViewMultiSearchBinding.inflate(LayoutInflater.from(context), this)
@@ -210,7 +218,8 @@ class MultiSearchView @JvmOverloads constructor(context: Context, attrs: Attribu
         dispatchThawSelfOnly(container)
     }
 
-    fun setSearchViewListener(multiSearchViewListener: MultiSearchViewListener) {
+    /** Sets the listener for search events, or removes it when [multiSearchViewListener] is `null`. */
+    fun setSearchViewListener(multiSearchViewListener: MultiSearchViewListener?) {
         binding.searchViewContainer.setSearchViewListener(multiSearchViewListener)
     }
 

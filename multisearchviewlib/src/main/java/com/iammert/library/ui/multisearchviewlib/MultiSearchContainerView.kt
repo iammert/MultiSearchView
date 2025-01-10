@@ -159,7 +159,7 @@ class MultiSearchContainerView @JvmOverloads constructor(
         searchViewWidth = viewWidth * WIDTH_RATIO
     }
 
-    fun setSearchViewListener(multiSearchViewListener: MultiSearchView.MultiSearchViewListener) {
+    fun setSearchViewListener(multiSearchViewListener: MultiSearchView.MultiSearchViewListener?) {
         this.multiSearchViewListener = multiSearchViewListener
     }
 

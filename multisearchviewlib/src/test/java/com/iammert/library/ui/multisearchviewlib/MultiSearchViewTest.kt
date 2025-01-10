@@ -264,6 +264,20 @@ class MultiSearchViewTest {
         assertFalse(restored.isInSearchMode)
     }
 
+    @Test
+    fun listenerCanOverrideOnlySomeMethods() {
+        val completed = mutableListOf<String>()
+        searchView.setSearchViewListener(object : MultiSearchView.MultiSearchViewListener {
+            override fun onSearchComplete(index: Int, s: CharSequence) {
+                completed += s.toString()
+            }
+        })
+        search("apple")
+        search("ab")
+
+        assertEquals(listOf("apple"), completed)
+    }
+
     private fun search(query: String) {
         clickSearchIcon()
         editText(tabCount() - 1).setText(query)
