@@ -278,6 +278,21 @@ class MultiSearchViewTest {
         assertEquals(listOf("apple"), completed)
     }
 
+    @Test
+    fun onlySelectedTabIsMarkedSelected() {
+        search("apple")
+        search("banana")
+
+        assertFalse(tab(0).isSelected)
+        assertTrue(tab(1).isSelected)
+
+        tab(0).performClick()
+        idle()
+
+        assertTrue(tab(0).isSelected)
+        assertFalse(tab(1).isSelected)
+    }
+
     private fun search(query: String) {
         clickSearchIcon()
         editText(tabCount() - 1).setText(query)

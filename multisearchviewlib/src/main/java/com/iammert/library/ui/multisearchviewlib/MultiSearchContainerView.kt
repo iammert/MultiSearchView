@@ -415,12 +415,14 @@ class MultiSearchContainerView @JvmOverloads constructor(
         indicatorAnimator.start()
 
         binding.viewIndicator.visibility = View.VISIBLE
+        viewItemBinding.root.isSelected = true
         viewItemBinding.imageViewRemove.visibility = View.VISIBLE
         viewItemBinding.editTextSearch.alpha = 1f
     }
 
     private fun deselectTab(viewItemBinding: MsvViewItemBinding) {
         binding.viewIndicator.visibility = View.INVISIBLE
+        viewItemBinding.root.isSelected = false
         viewItemBinding.imageViewRemove.visibility = View.GONE
         viewItemBinding.editTextSearch.alpha = 0.5f
     }
