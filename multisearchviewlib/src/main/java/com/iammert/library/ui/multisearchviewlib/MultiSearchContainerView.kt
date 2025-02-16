@@ -13,17 +13,20 @@ import android.widget.FrameLayout
 import android.widget.LinearLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.doOnLayout
-import androidx.core.widget.ImageViewCompat
 import androidx.core.view.doOnNextLayout
+import androidx.core.widget.ImageViewCompat
+import androidx.core.widget.doOnTextChanged
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import com.iammert.library.ui.multisearchviewlib.databinding.MsvViewItemBinding
 import com.iammert.library.ui.multisearchviewlib.databinding.MsvViewMultiSearchContainerBinding
-import com.iammert.library.ui.multisearchviewlib.extensions.*
+import com.iammert.library.ui.multisearchviewlib.extensions.endListener
+import com.iammert.library.ui.multisearchviewlib.extensions.onSearchAction
+import com.iammert.library.ui.multisearchviewlib.extensions.setStyle
 import com.iammert.library.ui.multisearchviewlib.helper.KeyboardHelper
-import com.iammert.library.ui.multisearchviewlib.helper.SimpleTextWatcher
 
 
-class MultiSearchContainerView @JvmOverloads constructor(
+/** Scrollable row of search tabs used by [MultiSearchView]. */
+internal class MultiSearchContainerView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
@@ -311,15 +314,12 @@ class MultiSearchContainerView @JvmOverloads constructor(
         viewItem.root.setOnClickListener(onTabClicked)
         viewItem.editTextSearch.setOnClickListener(onTabClicked)
 
-        viewItem.editTextSearch.addTextChangedListener(object : SimpleTextWatcher() {
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                super.onTextChanged(s, start, before, count)
-                val index = tabs.indexOf(viewItem)
-                if (s != null && index != -1) {
-                    multiSearchViewListener?.onTextChanged(index, s.toString())
-                }
+        viewItem.editTextSearch.doOnTextChanged { text, _, _, _ ->
+            val index = tabs.indexOf(viewItem)
+            if (text != null && index != -1) {
+                multiSearchViewListener?.onTextChanged(index, text.toString())
             }
-        })
+        }
 
         viewItem.imageViewRemove.setOnClickListener { removeTab(viewItem) }
 

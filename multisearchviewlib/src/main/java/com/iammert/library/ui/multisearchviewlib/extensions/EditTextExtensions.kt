@@ -15,7 +15,7 @@ import androidx.annotation.StyleRes
  * Calls [onSearchClicked] when the IME search action is pressed or, for hardware keyboards and
  * IMEs that send no action, when Enter is pressed.
  */
-fun EditText.onSearchAction(onSearchClicked: () -> Unit) {
+internal fun EditText.onSearchAction(onSearchClicked: () -> Unit) {
     setOnEditorActionListener { _, actionId, event ->
         val isSearchAction = actionId == EditorInfo.IME_ACTION_SEARCH
         val isEnterKey = actionId == EditorInfo.IME_NULL &&
@@ -57,7 +57,7 @@ fun EditText.onSearchAction(onSearchClicked: () -> Unit) {
  *
  * @author mertceyhan
  */
-fun EditText.setStyle(context: Context, @StyleRes resId: Int) {
+internal fun EditText.setStyle(context: Context, @StyleRes resId: Int) {
     if (resId == 0) {
         return
     }

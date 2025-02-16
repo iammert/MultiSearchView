@@ -7,7 +7,7 @@ import android.animation.AnimatorListenerAdapter
  * Runs [onAnimationEnd] when the animator finishes normally. Unlike
  * [androidx.core.animation.doOnEnd] the action is skipped when the animation is cancelled.
  */
-fun Animator.endListener(onAnimationEnd: () -> Unit) {
+internal fun Animator.endListener(onAnimationEnd: () -> Unit) {
     addListener(object : AnimatorListenerAdapter() {
         private var cancelled = false
 
