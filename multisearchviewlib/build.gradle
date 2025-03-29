@@ -3,7 +3,7 @@ apply plugin: 'kotlin-android'
 
 android {
     namespace 'com.iammert.library.ui.multisearchviewlib'
-    compileSdk 34
+    compileSdk 35
 
     defaultConfig {
         minSdk 21
@@ -24,12 +24,6 @@ android {
         targetCompatibility JavaVersion.VERSION_17
     }
 
-    kotlinOptions {
-        jvmTarget = '17'
-        // Compile interface default methods as Java default methods.
-        freeCompilerArgs += ['-Xjvm-default=all']
-    }
-
     buildFeatures {
         viewBinding true
     }
@@ -39,11 +33,19 @@ android {
     }
 }
 
+kotlin {
+    compilerOptions {
+        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
+        // Compile interface default methods as Java default methods.
+        freeCompilerArgs.add('-Xjvm-default=all')
+    }
+}
+
 dependencies {
     implementation 'androidx.appcompat:appcompat:1.7.0'
-    implementation 'androidx.core:core-ktx:1.13.1'
+    implementation 'androidx.core:core-ktx:1.15.0'
     testImplementation 'junit:junit:4.13.2'
-    testImplementation 'androidx.test:core-ktx:1.5.0'
-    testImplementation 'androidx.test.ext:junit-ktx:1.1.5'
-    testImplementation 'org.robolectric:robolectric:4.12.2'
+    testImplementation 'androidx.test:core-ktx:1.6.1'
+    testImplementation 'androidx.test.ext:junit-ktx:1.2.1'
+    testImplementation 'org.robolectric:robolectric:4.14.1'
 }
