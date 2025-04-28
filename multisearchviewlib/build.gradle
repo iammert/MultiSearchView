@@ -1,7 +1,11 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    id 'maven-publish'
 }
+
+group = 'com.github.iammert'
+version = '1.0.0'
 
 android {
     namespace 'com.iammert.library.ui.multisearchviewlib'
@@ -33,6 +37,12 @@ android {
     testOptions {
         unitTests.includeAndroidResources = true
     }
+
+    publishing {
+        singleVariant('release') {
+            withSourcesJar()
+        }
+    }
 }
 
 kotlin {
@@ -50,4 +60,27 @@ dependencies {
     testImplementation libs.androidx.test.core.ktx
     testImplementation libs.androidx.test.ext.junit.ktx
     testImplementation libs.robolectric
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                artifactId = 'MultiSearchView'
+
+                pom {
+                    name = 'MultiSearchView'
+                    description = 'Animated search view with multiple search queries for Android'
+                    url = 'https://github.com/iammert/MultiSearchView'
+                    licenses {
+                        license {
+                            name = 'The Apache License, Version 2.0'
+                            url = 'https://www.apache.org/licenses/LICENSE-2.0.txt'
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
