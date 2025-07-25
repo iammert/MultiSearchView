@@ -84,6 +84,9 @@ internal class MultiSearchContainerView @JvmOverloads constructor(
 
     private val tabs = mutableListOf<MsvViewItemBinding>()
 
+    /** Tab resized by [searchCompleteCollapseAnimator], which may no longer be the selected one. */
+    private var collapsingTab: MsvViewItemBinding? = null
+
     private var multiSearchViewListener: MultiSearchView.MultiSearchViewListener? = null
 
     private val searchEnterScrollAnimation = ValueAnimator.ofInt()
@@ -106,7 +109,7 @@ internal class MultiSearchContainerView @JvmOverloads constructor(
         duration = DEFAULT_ANIM_DURATION
         interpolator = LinearOutSlowInInterpolator()
         addUpdateListener { valueAnimator ->
-            selectedTab?.let {
+            collapsingTab?.let {
                 val newViewLayoutParams = it.root.layoutParams
                 newViewLayoutParams.width = valueAnimator.animatedValue as Int
                 it.root.layoutParams = newViewLayoutParams
@@ -227,6 +230,7 @@ internal class MultiSearchContainerView @JvmOverloads constructor(
         selectedTab?.let {
             val startWidthValue = it.root.measuredWidth
             val endWidthValue = it.editTextSearch.measuredWidth + sizeRemoveIcon + defaultPadding
+            collapsingTab = it
             searchCompleteCollapseAnimator.setIntValues(startWidthValue, endWidthValue)
             searchCompleteCollapseAnimator.start()
             multiSearchViewListener?.onSearchComplete(tabs.indexOf(it), it.editTextSearch.text.toString())
@@ -288,6 +292,7 @@ internal class MultiSearchContainerView @JvmOverloads constructor(
             isInSearchMode = false
             KeyboardHelper.hideKeyboard(this)
         }
+        collapsingTab = null
         tabs.clear()
         binding.layoutItemContainer.removeAllViews()
         binding.horizontalScrollView.translationX = 0f
@@ -385,6 +390,11 @@ internal class MultiSearchContainerView @JvmOverloads constructor(
             tabs.size == 1 -> null
             removeIndex == tabs.size - 1 -> tabs[removeIndex - 1]
             else -> tabs[removeIndex + 1]
+        }
+
+        if (viewItemBinding === collapsingTab) {
+            searchCompleteCollapseAnimator.cancel()
+            collapsingTab = null
         }
 
         tabs.removeAt(removeIndex)

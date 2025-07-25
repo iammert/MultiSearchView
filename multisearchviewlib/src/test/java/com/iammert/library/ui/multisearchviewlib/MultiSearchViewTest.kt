@@ -293,6 +293,24 @@ class MultiSearchViewTest {
         assertFalse(tab(1).isSelected)
     }
 
+    @Test
+    fun selectingAnotherTabDuringCollapseKeepsCollapsingTheCompletedTab() {
+        search("apple")
+        val collapsedWidth = tab(0).layoutParams.width
+
+        clickSearchIcon()
+        editText(1).setText("banana")
+        val expandedWidth = tab(1).layoutParams.width
+        searchView.completeSearch()
+        // Select the first tab before the collapse animation of the second one has run.
+        tab(0).performClick()
+        idle()
+
+        assertTrue(expandedWidth > collapsedWidth)
+        assertEquals(collapsedWidth, tab(1).layoutParams.width)
+        assertEquals(collapsedWidth, tab(0).layoutParams.width)
+    }
+
     private fun search(query: String) {
         clickSearchIcon()
         editText(tabCount() - 1).setText(query)
