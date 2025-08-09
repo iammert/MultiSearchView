@@ -5,6 +5,7 @@ appcompat = "1.7.1"
 core-ktx = "1.16.0"
 activity = "1.10.1"
 material = "1.12.0"
+recyclerview = "1.4.0"
 junit = "4.13.2"
 androidx-test = "1.6.1"
 androidx-test-ext = "1.2.1"
@@ -15,6 +16,7 @@ robolectric = "4.15.1"
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "core-ktx" }
 androidx-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "activity" }
+androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "recyclerview" }
 material = { module = "com.google.android.material:material", version.ref = "material" }
 junit = { module = "junit:junit", version.ref = "junit" }
 androidx-test-core-ktx = { module = "androidx.test:core-ktx", version.ref = "androidx-test" }

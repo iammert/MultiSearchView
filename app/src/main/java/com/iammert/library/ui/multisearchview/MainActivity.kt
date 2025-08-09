@@ -1,7 +1,6 @@
 package com.iammert.library.ui.multisearchview
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -24,23 +23,45 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        binding.multiSearchView.setSearchViewListener(object : MultiSearchView.MultiSearchViewListener{
-            override fun onItemSelected(index: Int, s: CharSequence) {
-                Log.v("TEST", "onItemSelected: index: $index, query: $s")
-            }
+        val adapter = PlaceAdapter()
+        binding.recyclerViewPlaces.adapter = adapter
+        val searchView = binding.multiSearchView
 
+        // Every tab is a separate search, the list shows the results of the selected one.
+        fun showResults(query: CharSequence?) {
+            val trimmed = query?.trim() ?: ""
+            adapter.submitList(PLACES.filter { it.contains(trimmed, ignoreCase = true) })
+        }
+
+        searchView.setSearchViewListener(object : MultiSearchView.MultiSearchViewListener {
             override fun onTextChanged(index: Int, s: CharSequence) {
-                Log.v("TEST", "changed: index: $index, query: $s")
+                if (index == searchView.selectedIndex) {
+                    showResults(s)
+                }
             }
 
             override fun onSearchComplete(index: Int, s: CharSequence) {
-                Log.v("TEST", "complete: index: $index, query: $s")
+                showResults(s)
+            }
+
+            override fun onItemSelected(index: Int, s: CharSequence) {
+                showResults(s)
             }
 
             override fun onSearchItemRemoved(index: Int) {
-                Log.v("TEST", "remove: index: $index")
+                showResults(searchView.queries.getOrNull(searchView.selectedIndex))
             }
-
         })
+
+        showResults(searchView.queries.getOrNull(searchView.selectedIndex))
+    }
+
+    private companion object {
+        val PLACES = listOf(
+            "Amsterdam", "Ankara", "Antalya", "Athens", "Barcelona", "Berlin", "Bodrum", "Budapest",
+            "Copenhagen", "Dublin", "Edinburgh", "Florence", "Istanbul", "Izmir", "Kyoto", "Lisbon",
+            "London", "Madrid", "Milan", "Munich", "New York", "Oslo", "Paris", "Prague", "Rome",
+            "San Francisco", "Seoul", "Stockholm", "Tokyo", "Trabzon", "Vienna", "Zurich"
+        )
     }
 }
