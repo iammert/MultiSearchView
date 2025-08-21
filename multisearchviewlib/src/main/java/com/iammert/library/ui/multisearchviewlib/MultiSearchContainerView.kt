@@ -80,6 +80,8 @@ internal class MultiSearchContainerView @JvmOverloads constructor(
 
     private var isInSearchMode = false
 
+    private var isSearchPending = false
+
     private var selectedTab: MsvViewItemBinding? = null
 
     private val tabs = mutableListOf<MsvViewItemBinding>()
@@ -170,7 +172,17 @@ internal class MultiSearchContainerView @JvmOverloads constructor(
     }
 
     fun search() {
-        if (isInSearchMode) {
+        if (isInSearchMode || isSearchPending) {
+            return
+        }
+
+        // The width of a new tab depends on the width of this view, so wait for the first layout.
+        if (viewWidth == 0f) {
+            isSearchPending = true
+            doOnLayout {
+                isSearchPending = false
+                search()
+            }
             return
         }
 

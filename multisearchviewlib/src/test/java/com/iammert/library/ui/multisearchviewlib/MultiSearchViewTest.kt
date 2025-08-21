@@ -311,6 +311,21 @@ class MultiSearchViewTest {
         assertEquals(collapsedWidth, tab(0).layoutParams.width)
     }
 
+    @Test
+    fun searchBeforeFirstLayoutWaitsForIt() {
+        val newSearchView = MultiSearchView(activity)
+        newSearchView.search()
+        newSearchView.search()
+
+        activity.setContentView(newSearchView, ViewGroup.LayoutParams(1000, ViewGroup.LayoutParams.WRAP_CONTENT))
+        idle()
+
+        val items = newSearchView.findViewById<LinearLayout>(R.id.layoutItemContainer)
+        assertEquals(1, items.childCount)
+        assertTrue(items.getChildAt(0).width > 0)
+        assertTrue(newSearchView.isInSearchMode)
+    }
+
     private fun search(query: String) {
         clickSearchIcon()
         editText(tabCount() - 1).setText(query)
