@@ -14,6 +14,7 @@ import android.widget.LinearLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.doOnLayout
 import androidx.core.view.doOnNextLayout
+import androidx.core.view.updateLayoutParams
 import androidx.core.widget.ImageViewCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
@@ -163,8 +164,18 @@ internal class MultiSearchContainerView @JvmOverloads constructor(
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
-        viewWidth = measuredWidth.toFloat()
+        viewWidth = w.toFloat()
         searchViewWidth = viewWidth * WIDTH_RATIO
+
+        // Keep the tab being typed in proportion, for example in multi-window or on foldables.
+        val typingTab = selectedTab
+        if (w != oldw && isInSearchMode && typingTab != null) {
+            post {
+                if (isInSearchMode && selectedTab === typingTab) {
+                    typingTab.root.updateLayoutParams { width = searchViewWidth.toInt() }
+                }
+            }
+        }
     }
 
     fun setSearchViewListener(multiSearchViewListener: MultiSearchView.MultiSearchViewListener?) {

@@ -326,6 +326,18 @@ class MultiSearchViewTest {
         assertTrue(newSearchView.isInSearchMode)
     }
 
+    @Test
+    fun typedTabFollowsWidthChanges() {
+        clickSearchIcon()
+        val initialWidth = tab(0).layoutParams.width
+
+        searchView.layoutParams = searchView.layoutParams.apply { width = 500 }
+        idle()
+
+        assertTrue(tab(0).layoutParams.width < initialWidth)
+        assertTrue(searchView.isInSearchMode)
+    }
+
     private fun search(query: String) {
         clickSearchIcon()
         editText(tabCount() - 1).setText(query)
