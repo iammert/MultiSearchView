@@ -79,6 +79,16 @@ class MultiSearchView @JvmOverloads constructor(context: Context, attrs: Attribu
         }
     }
 
+    /**
+     * Enables or disables the view. A disabled view ignores taps, completes the search that is
+     * being typed and does not start new searches.
+     */
+    override fun setEnabled(enabled: Boolean) {
+        super.setEnabled(enabled)
+        binding.imageViewSearch.isEnabled = enabled
+        binding.searchViewContainer.isEnabled = enabled
+    }
+
     /** `true` while a new query is being typed. */
     val isInSearchMode: Boolean
         get() = binding.searchViewContainer.isInSearchMode()

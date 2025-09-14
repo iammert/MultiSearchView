@@ -338,6 +338,28 @@ class MultiSearchViewTest {
         assertTrue(searchView.isInSearchMode)
     }
 
+    @Test
+    fun disabledViewIgnoresInput() {
+        search("apple")
+        clickSearchIcon()
+        editText(1).setText("banana")
+
+        searchView.isEnabled = false
+        idle()
+        assertFalse(searchView.isInSearchMode)
+        assertEquals("complete 1 banana", events.last())
+
+        clickSearchIcon()
+        searchView.search()
+        idle()
+        assertEquals(2, tabCount())
+        assertFalse(tab(0).isEnabled)
+
+        searchView.isEnabled = true
+        clickSearchIcon()
+        assertEquals(3, tabCount())
+    }
+
     private fun search(query: String) {
         clickSearchIcon()
         editText(tabCount() - 1).setText(query)

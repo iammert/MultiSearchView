@@ -150,6 +150,20 @@ internal class MultiSearchContainerView @JvmOverloads constructor(
             }
     }
 
+    override fun setEnabled(enabled: Boolean) {
+        super.setEnabled(enabled)
+        if (!enabled && isInSearchMode) {
+            completeSearch()
+        }
+        tabs.forEach { applyEnabled(it) }
+    }
+
+    private fun applyEnabled(tab: MsvViewItemBinding) {
+        tab.root.isEnabled = isEnabled
+        tab.editTextSearch.isEnabled = isEnabled
+        tab.imageViewRemove.isEnabled = isEnabled
+    }
+
     override fun onDetachedFromWindow() {
         cancelAnimations()
         super.onDetachedFromWindow()
@@ -183,7 +197,7 @@ internal class MultiSearchContainerView @JvmOverloads constructor(
     }
 
     fun search() {
-        if (isInSearchMode || isSearchPending) {
+        if (!isEnabled || isInSearchMode || isSearchPending) {
             return
         }
 
@@ -335,6 +349,7 @@ internal class MultiSearchContainerView @JvmOverloads constructor(
 
         viewItem.editTextSearch.setStyle(context, searchTextStyle)
         applyRemoveIcon(viewItem)
+        applyEnabled(viewItem)
 
         viewItem.root.layoutParams = LinearLayout.LayoutParams(searchViewWidth.toInt(), WRAP_CONTENT)
 
