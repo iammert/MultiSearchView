@@ -33,6 +33,12 @@ class MultiSearchView @JvmOverloads constructor(context: Context, attrs: Attribu
 
         /** The user selected the tab at [index] with the query [s]. */
         fun onItemSelected(index: Int, s: CharSequence) {}
+
+        /**
+         * A search started ([inSearchMode] is `true`) or ended. Useful to intercept the back
+         * button only while a query is being typed.
+         */
+        fun onSearchModeChanged(inSearchMode: Boolean) {}
     }
 
     private val binding = MsvViewMultiSearchBinding.inflate(LayoutInflater.from(context), this)

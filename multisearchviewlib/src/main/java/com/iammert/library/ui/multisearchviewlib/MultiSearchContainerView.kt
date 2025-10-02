@@ -80,6 +80,12 @@ internal class MultiSearchContainerView @JvmOverloads constructor(
     private val defaultPadding = context.resources.getDimensionPixelSize(R.dimen.msv_padding_default)
 
     private var isInSearchMode = false
+        set(value) {
+            if (field != value) {
+                field = value
+                multiSearchViewListener?.onSearchModeChanged(value)
+            }
+        }
 
     private var isSearchPending = false
 

@@ -30,6 +30,7 @@ class MultiSearchViewTest {
     private lateinit var activity: Activity
     private lateinit var searchView: MultiSearchView
     private val events = mutableListOf<String>()
+    private val modeChanges = mutableListOf<Boolean>()
 
     @Before
     fun setUp() {
@@ -52,6 +53,10 @@ class MultiSearchViewTest {
 
             override fun onItemSelected(index: Int, s: CharSequence) {
                 events += "selected $index $s"
+            }
+
+            override fun onSearchModeChanged(inSearchMode: Boolean) {
+                modeChanges += inSearchMode
             }
         })
         idle()
@@ -358,6 +363,16 @@ class MultiSearchViewTest {
         searchView.isEnabled = true
         clickSearchIcon()
         assertEquals(3, tabCount())
+    }
+
+    @Test
+    fun searchModeChangesAreReported() {
+        search("apple")
+        search("ab")
+        clickSearchIcon()
+        searchView.clearSearches()
+
+        assertEquals(listOf(true, false, true, false, true, false), modeChanges)
     }
 
     private fun search(query: String) {
