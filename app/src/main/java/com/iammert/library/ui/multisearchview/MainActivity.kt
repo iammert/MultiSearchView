@@ -1,6 +1,7 @@
 package com.iammert.library.ui.multisearchview
 
 import android.os.Bundle
+import androidx.activity.addCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -33,7 +34,16 @@ class MainActivity : AppCompatActivity() {
             adapter.submitList(PLACES.filter { it.contains(trimmed, ignoreCase = true) })
         }
 
+        // Back finishes the search that is being typed before it closes the screen.
+        val completeSearchOnBack = onBackPressedDispatcher.addCallback(this, enabled = false) {
+            searchView.completeSearch()
+        }
+
         searchView.setSearchViewListener(object : MultiSearchView.MultiSearchViewListener {
+            override fun onSearchModeChanged(inSearchMode: Boolean) {
+                completeSearchOnBack.isEnabled = inSearchMode
+            }
+
             override fun onTextChanged(index: Int, s: CharSequence) {
                 if (index == searchView.selectedIndex) {
                     showResults(s)
