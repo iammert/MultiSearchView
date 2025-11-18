@@ -13,6 +13,24 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.widget.ImageViewCompat
 import com.iammert.library.ui.multisearchviewlib.databinding.MsvViewMultiSearchBinding
 
+/**
+ * Animated search view that keeps several searches side by side as tabs.
+ *
+ * Tapping the search icon adds a tab and opens the keyboard. Completing the search, with the icon
+ * or the search key, collapses the tab to its query and selects it. Tapping a tab selects it and
+ * the remove icon of the selected tab deletes it. Events are delivered to a
+ * [MultiSearchViewListener].
+ *
+ * XML attributes:
+ * - `app:searchTextStyle`: style applied to the search fields, see the README for the supported
+ *   attributes
+ * - `app:minSearchLength`: minimum query length, 3 by default
+ * - `app:animationDuration`: duration of the animations in milliseconds, 500 by default
+ * - `app:searchIcon`, `app:removeIcon`: custom icons
+ * - `app:iconTint`, `app:indicatorColor`: colors, `colorControlNormal` by default
+ *
+ * Give the view an id to keep the searches across configuration changes.
+ */
 class MultiSearchView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
     RelativeLayout(context, attrs, defStyleAttr) {
 
