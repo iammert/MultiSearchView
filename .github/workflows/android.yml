@@ -26,7 +26,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
 
       - name: Build, test and lint
-        run: ./gradlew assembleDebug testDebugUnitTest lintDebug
+        run: ./gradlew assembleDebug assembleRelease testDebugUnitTest lintDebug
 
       - name: Upload test reports
         if: failure()
