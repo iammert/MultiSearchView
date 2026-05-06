@@ -375,6 +375,24 @@ class MultiSearchViewTest {
         assertEquals(listOf(true, false, true, false, true, false), modeChanges)
     }
 
+    @Test
+    fun clearSearchesCancelsPendingSearch() {
+        val newSearchView = MultiSearchView(activity)
+        newSearchView.search()
+        newSearchView.clearSearches()
+
+        activity.setContentView(newSearchView, ViewGroup.LayoutParams(1000, ViewGroup.LayoutParams.WRAP_CONTENT))
+        idle()
+
+        assertEquals(0, newSearchView.findViewById<LinearLayout>(R.id.layoutItemContainer).childCount)
+        assertFalse(newSearchView.isInSearchMode)
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun blankQueriesCannotBeAdded() {
+        searchView.addSearch("  ")
+    }
+
     private fun search(query: String) {
         clickSearchIcon()
         editText(tabCount() - 1).setText(query)

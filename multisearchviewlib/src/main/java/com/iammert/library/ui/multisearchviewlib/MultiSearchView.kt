@@ -165,6 +165,8 @@ class MultiSearchView @JvmOverloads constructor(context: Context, attrs: Attribu
      * Adds a completed search tab with [query] and selects it, for example to restore filters
      * from a saved screen state. A search that is being typed is completed first.
      * No listener methods are called.
+     *
+     * @throws IllegalArgumentException when [query] is blank
      */
     fun addSearch(query: CharSequence) {
         binding.searchViewContainer.addSearch(query)

@@ -211,8 +211,11 @@ internal class MultiSearchContainerView @JvmOverloads constructor(
         if (viewWidth == 0f) {
             isSearchPending = true
             doOnLayout {
-                isSearchPending = false
-                search()
+                // clearSearches() may have cancelled the search in the meantime.
+                if (isSearchPending) {
+                    isSearchPending = false
+                    search()
+                }
             }
             return
         }
@@ -304,6 +307,7 @@ internal class MultiSearchContainerView @JvmOverloads constructor(
     }
 
     fun addSearch(query: CharSequence) {
+        require(query.isNotBlank()) { "query must not be blank" }
         if (isInSearchMode) {
             completeSearch()
         }
@@ -330,6 +334,7 @@ internal class MultiSearchContainerView @JvmOverloads constructor(
     }
 
     fun clearSearches() {
+        isSearchPending = false
         cancelAnimations()
         if (isInSearchMode) {
             isInSearchMode = false
